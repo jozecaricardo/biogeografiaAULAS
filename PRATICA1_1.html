@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>pratica 1_1</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Métodos em Biogeografia Histórica</a>
+        <div class="btn-group">
+          <button type="button" class="btn btn-danger">Introdução</button>
+          <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+            <span class="visually-hidden">Toggle Dropdown</span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="index.html">Início</a></li>
+            <li><a class="dropdown-item" href="int_objetivos.html">Objetivos</a></li>
+            <li><a class="dropdown-item" href="int_ementa.html">Ementa</a></li>
+            <li><a class="dropdown-item" href="int_programa.html">Programa</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="int_referencias.html">Referências bibliográficas</a></li>
+          </ul>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-wrap" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Baixando e preparando os dados de ocorrência
+              </a>
+              <ul class="dropdown-menu dropdown-menu-dark">
+                  <li><a class="dropdown-item" href="pratica1_objetivos.html">Objetivos</a></li>
+                  <!---<li><a class="dropdown-item" href="#">Morfologia: busca TRADICIONAL pelo TNT</a></li>
+                  <li><a class="dropdown-item" href="#">Morfologia: Busca com o uso de "NEW TECHNOLOGY" pelo TNT</a></li>--->
+                  <li><a class="dropdown-item" href="PRATICA1_1.html">Baixando registros do GBIF e PBDB</a></li>
+                  <li><a class="dropdown-item" href="PRATICA1_2.html">Limpeza</a></li>
+                  <!----<li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="PARC_referencias.html">Referências</a></li>--->
+              </ul>
+           </li>
+           <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-wrap" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Distribuição, riqueza e viés
+              </a>
+              <ul class="dropdown-menu dropdown-menu-dark">
+                  <li><a class="dropdown-item" href="pratica2_objetivos.html">Objetivos</a></li>
+                  <li><a class="dropdown-item text-wrap" href="PRATICA2_1.html">Quadrículas, irregular bins e viés</a></li>
+              </ul>
+           </li>
+           <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-wrap" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Métodos de identificação, padrões distribucionais, áreas de endemismo e componentes bióticos e regionalização
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+                <li><a class="dropdown-item" href="pratica3_objetivos.html">Objetivos</a></li>
+                <li><a class="dropdown-item text-wrap" href="aula_pae_pce.html">PAE-PCE</a></li>
+            </ul>
+         </li>
+          </ul>
+        </div>
+      </div>
+  </nav>
+
+  <!---- Exercícios -->
+  <div>
+    <p class="fs-2 text-success">First things first</p>
+    <ol>
+        <li class="fs-4 fw-normal">Crie um diretório de trabalho na raiz do seu computador. Evite muitos subdiretórios.</li>
+        <li class="fs-4 fw-normal">Instale o programa <a href="https://www.r-project.org/">R software</a>
+          e depois o <a href="https://posit.co/downloads/">RStudio</a>.</li>
+        <li class="fs-4 fw-normal">É necessário também depois instalar e carregar os seguintes pacotes do CRAN: , instale o <code>jsonlite, curl, robis,
+          rgbif, paleobioDB, devtools, tidyverse, readr, terra, taxsize, sf e string</code>.</li>
+        <!---<li class="fs-4 fw-normal">Instale também o programa <a href="https://github.com/beast-dev/tracer/releases/tag/v1.7.2">Tracer</a> para a visualização de convergência das cadeias de Markov. </li>--->        
+    </ol>
+    <p>Para instalar o taxsize, carregue o pacote devtools e digite <code>install_github('ropensci/taxize')</code> porque esse pacote só está
+      disponível no github atualmente.</p>
+  </div>
+
+  <p class="fw-semibold fs-6 lh-sm">Para usar o <a href="https://www.gbif.org/"><code>gbif</code></a>, você precisará ter uma conta de usuário GBIF. Isso normalmente não levará muito tempo para ser realizado, mas é importante fazer!
+    Vá para a aba de registro no canto superior direito da página inicial do GBIF e crie sua própria conta. <code>O GBIF só permite - até onde eu saiba -
+    três downloads por dia</code>, pois muito tráfego de download em uma única conta fará com que o servidor responda desfavoravelmente.</p>
+
+  <div class="accordion" id="accordionExample">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingOne">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          GBIF
+        </button>
+      </h2>
+      <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+            <strong>Tutorial para baixar dados do GBIF e fazer uma limpeza básica nos registros obtidos</strong>
+            <div>
+              <code>Antes de começar, vale à pena dar uma olhada no site do GBIF e usar seus recursos de pesquisa para explorar a disponibilidade
+                dos dados. Procure por algumas espécies ou grupos que considere interessantes e observe a distribuição delas no mapa integrado. Além disso,
+                examine uma única ocorrência e observe o número de campos diferentes disponíveis para um usuário:</code> alguns deles podem ser muito relevantes
+                para sua limpeza de dados! <code>Dê uma olhada também na documentação do <a href="https://techdocs.gbif.org/en/openapi/">API do GBIF</a>.</code>
+              </code> <strong>Como a API estrutura solicitaçoes como URLs?</strong>
+              <ol>
+                <li>Navegue até a seção <strong>Registry</strong> e expanda a guia <strong>GET /dataset</strong>;</li>
+                <li>clique em <strong>Try It Out</strong> e encontre o código de país de duas letras no menu suspenso do país;</li>
+                <li>clique em <strong>Execute</strong>> e veja uma URL terminando em country=CODE em <strong>Request URL</strong>;</li>
+                <li>cole essa URL em uma nova página da web e estará vendo uma lista formatada em JSON de conjunto de dados em GBIF para aquele país;</li>
+                <li>repita o processo para a API de ocorrência usando o campo <strong>gbifld</strong>, porque essa estrutura baseada em JSON é
+                 a base para acesso de dados pela API. Podemos fazer isso no R diretamente também. Use sua própria URL se quiser abaixo.</li>
+              </ol>
+              <!--<pre>-->
+                <!---<div style="background-color:black;color:white;padding:20px;">-->
+              <p class="fs-6 fw-normal"><code>library(jsonlite)</code> # Para carregar o pacote</p>
+              <p class="fs-6 fw-normal"><code>occ <- fromJSON("https://api.gbif.org/v1/occurrence/1258202889")</code> # baixar um único pedido JSON do GBIF</p>
+              <p></p>
+              <code class="fs-5 fw-normal">A classe do nosso download</code> occ <code class="fs-5 fw-normal">é uma lista. A maioria dos elementos da lista são vetores simples, mas não todos.
+                Para fins demonstrativos, achataremos os elementos não vetoriais, o que nos permite vincular a lista a um data.frame - isso é um
+                conjunto de dados de ocorrência rudimentar.</code>
+              <ol>
+                <li class="fs-4 fw-normal"><code>class(occ)</code></li>
+                <li class="fs-4 fw-normal"><code>lapply(occ, class)</code></li>
+                <li class="fs-4 fw-normal"><code>occ <- unlist(occ, recursive = F)</code></li>
+                <li class="fs-4 fw-normal"><code>as.data.frame(unlist(occ, recursive = F)</code></li>
+              </ol>
+                <p></p>
+              <p class="fw-light font-monospace">Isso foi apenas um exercício ilustrativo, mas mostra que podemos trabalhar com a API de uma
+                 maneira muito direta. Se quiséssemos, poderíamos até escrever código para analisar a solicitação JSON em nosso formato data frame
+                 amigável no próprio R, embora seja isso que o <code>jsonlite</code> faz.</p>
+              <hr>
+              <p class="fs-4 fw-normal"><strong>Agora, para valer, vamos baixar várias ocorrências e conjuntos de dados, usaremos
+                 novamente um pacote R personalizado, <code>rgbif</code></strong>.</p>
+              <p></p>
+              <code class="fs-4 fw-normal">Lembre-se, você precisa já ter uma conta de usuário GBIF!</code>
+              <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
+                <p class="fs-6 fw-normal"><code>library(rgbif)</code> # para carregar o pacote</p>
+                <p class="fs-6 fw-normal"><code>usr <- "nonono"</code> # nome do usuário</p>
+                <p class="fs-6 fw-normal"><code>pwd <- "nonono"</code> # senha do usuário</p>
+                <p class="fs-6 fw-normal"><code>eml <- "nonono.gmail"</code> # email do usuário</p>
+              </div>
+              <p></p>
+              <code class="fs-5 fw-normal">Agora, procuramos pelo nosso táxon no GBIF.</code>
+              <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
+                <p class="fs-6 fw-normal"><code>tax <- occ_search(scientificName = "Altiphylax")</code> # você pode usar qualquer outro nome</p>
+              </div>
+              <p></p>
+              <code class="fs-4 fw-normal">Se tivermos identificado com segurança que nosso táxon tem correspondências no banco de dados,
+                 construiremos um predicado de pesquisa para o ID exclusivo associado a esse táxon e, em seguida, enviamos essa solicitação
+                 ao banco de dados, especificando que queremos que um arquivo .csv seja baixado.</code>
+              <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
+                <p class="fs-6 fw-normal"><code>tpred <- pred("taxonKey", name_backbone("Altiphylax")$usageKey)</code> # predicate and execute</p>
+                <p class="fs-6 fw-normal"><code>dload <- occ_download(tpred, format = "SIMPLE_CSV", pred("hasCoordinate", TRUE),
+                  user = usr, pwd = pwd, email = eml)</code>
+                  # Para fazer o download... Pode demorar um pouco dependendo do número de registros!</p>
+                <p class="fs-6 fw-normal"><code>occ_download_wait(dload)</code> # Essa função pode ser usada para nos dizer quando o download foi finalizado</p>  
+                <p class="fs-6 fw-normal"><code>dload</code> # Examinando os resultados</p>
+              </div>
+              <p></p>
+              <p class="fw-light font-monospace">O que essa função fez foi fazer o servidor GBIF preparar um arquivo para download.
+                Ele contém os detalhes do nosso download preparado, incluindo algumas URLs e DOIs. O DOI é citável em publicações e fornece
+                documentação clara e transparente do que você baixou e quando. Tente colar qualquer um deles no Google. Você verá que ele o
+                levará para uma página GBIF para esse download. Há até um botão de download - se clicarmos com o botão direito e olharmos para
+                a URL do link, veremos a formatação específica da API para um arquivo .zip com nossos dados. Ir para essa URL até baixará o
+                arquivo zip automaticamente.
+              </p>
+              <p></p>
+              <code class="fs-4 fw-normal">Podemos ainda obter ocorrências para múltiplas espécies usando os IDs dos táxons. Entretanto,
+                o grupo específico pode não ser parte do arcabouço do GBIF. Nesse caso, podemos obter dados de uma lista de gêneros, espécies etc.
+                <strong>De qualquer forma, é uma boa ideia usar os IDs de táxons do GBIF ao invés do nome científico, já que ele incluirá os sinônimos também.</strong>
+              </code>
+              <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
+                <pre>
+                  <class="fs-6 fw-normal"><code>ID <- taxize::get_gbifid_("Lethocerus patruelis", method = "backbone")</code> ## get_gbifid_ retornará uma lista</p>
+                  <class="fs-6 fw-normal"><code>ID <- ID %>%
+                    bind_rows() %>% # convertida em data frame
+                    filter(matchtype == "EXACT" & status == "ACCEPTED") # filtra os dados para os nomes aceitos
+                  </code>
+                </pre>
+              </div>
+              <p></p>
+              <code class="fs-4 fw-normal">Podemos também obter IDs de grupos taxonômicos supra-específicos, como famílias.
+              </code>
+              <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
+                <pre>
+                  <class="fs-6 fw-normal"><code>ID_Belos <- taxize::get_gbifid_("Belostomatidae", method="backbone") %>%
+                    bind_rows() %>%
+                    filter(matchtype == "EXACT" & status == "ACCEPTED")
+                  </code>
+                </pre>
+              </div>
+              <p></p>
+              <code class="fs-4 fw-normal">Podemos também obter IDs de uma <a href="bombacoideae_specieslist.csv">lista de espécies</a>.
+              </code>
+              <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
+                <pre>
+                <class="fs-6 fw-normal"><code>splist <- read_csv("bombacoideae_specieslist.csv")</code> # espécies em .csv de Bombacoidea 
+                <code class="fs-6 fw-normal">gbif_taxon_keys <-
+                splist %>%
+                pull("accepted_name") %>% # use poucos nomes se for um teste
+                taxize::get_gbifid_(method="backbone") %>%
+                imap(~ .x %>% mutate(original_sciname = .y)) %>% # coloque os nomes originais no data frame
+                bind_rows() %>% # combine todos os data frames em apenas um
+                filter(matchtype == "EXACT" & status == "ACCEPTED") %>%
+                filter(kingdom == "Plantae") # evite homonímias
+                </code>
+              </pre>
+              </div>
+              <hr>
+              <code class="fs-4 fw-normal">Frequentemente é desejável obter registros de uma área geográfica específica. Uma opção é fazer o
+                download dos registros que estejam dentro de um polígono específico. <strong>O rgbif/GBIF também oferece a opção de fazer isso.
+                  Para tanto, é necessário definir um polígono. Isso pode ser feito via Google Earth, e o arquivo obtido é importado em formato
+                  .kml ou .shp.</strong> Para facilitar, baixe um polígono da Amazônia <a href="Amazonia.kml">aqui</a> e coloque no seu diretório
+                  de trabalho.
+              </code>
+              <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
+                <pre>
+                <class="fs-6 fw-normal"><code>library(sf); library(terra); library(tidyverse); library(taxsize); library(devtools)</code> # carregando os pacotes 
+                <code class="fs-6 fw-normal">amz <- st_read("Amazonia.kml")</code> # puxando o arquivo para dentro do R
+                <code class="fs-6 fw-normal">plot(amz$geometry)</code> # para verificar se está tudo bem
+                <code class="fs-6 fw-normal">amz <- st_as_text(st_as_sfc(amz))</code> # para transformar num objeto WKT
+                <pre>
+                  <code class="fs-6 fw-normal">ID_Belos <- taxize::get_gbifid_("Belostomatidae", method="backbone") %>% 
+                    bind_rows() %>%
+                    filter(matchtype == "EXACT" & status == "ACCEPTED") # para pegar o ID da família Belostomatidae</code>
+
+                  <code class="fs-6 fw-normal">occ_download(pred_in("taxonKey", ID_Belos$usagekey), pred("hasCoordinate", TRUE), pred_within(amz), format = "SIMPLE_CSV",
+                    user = usr, pwd = pwd, email = eml) # o argumento pred_within fará o trabalho
+                  </code>                  
+                </pre>
+              </div>
+              <hr>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingTwo">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+            paleobioDB (PBDB)
+          </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="collapseTwo" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <strong>Rotina para fazer o download de ocorrências de fósseis</strong>.
+            <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
+              <pre>
+              <class="fs-6 fw-normal"><code>library(paleobioDB); library(readr); library(dplyr)</code> # carregando pacotes 
+              <code class="fs-6 fw-normal"># Para pegar as ocorrências do Paleobiology DB, estreite sua busca como abaixo:
+                dat_tax <- paleobioDB::pbdb_occurrences(base_name = c("Belostomatidae"),
+                          vocab = "pbdb", limit = 500, show = c("coords", "phylo", "attr", "loc",
+                          "time", "rem", "ident"))
+                rownames(dat) <- NULL
+              </code>
+              <code class="fs-6 fw-normal">É possível também pegar registro de uma <a href="bombacoideae_genuslist.csv">lista de espécies ou gêneros</a>
+                gen_list <- read_csv("bombacoideae_genuslist.csv") # nome do arquivo .csv
+                dat_gen <- paleobioDB::pbdb_occurrences(base_name = gen_list$gen, vocab = "pbdb", limit = 500, show = c("coords", "phylo", "attr", "loc", "time", "rem", "ident"))
+                
+                # combine os dados em um local só:
+                dat <- bind_rows(dat_tax, dat_gen)
+
+                # Mas tome cuidado com as homonímias!
+                unique(dat$phylum)
+                dat <- dat[dat$phylum == "Spermatophyta", ]
+
+                # Visualize Belostomatidae
+                pbdb_map(dat_tax)
+                pbdb_richness(dat_tax, rank = "species", temporal_extent = c(100, 0)) # mapa de riqueza                
+
+                # grave no arquivo:
+                write_csv(dat_tax, "BelosFossil_records.csv")
+              </code>
+              </pre>
+            </div> 
+          </div>
+        </div>
+      </div>      
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+  </body>
+</html>

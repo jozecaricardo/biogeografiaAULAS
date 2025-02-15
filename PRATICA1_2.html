@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="br">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>pratica 1_2</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Métodos em Biogeografia Histórica</a>
+      <div class="btn-group">
+        <button type="button" class="btn btn-danger">Introdução</button>
+        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          <span class="visually-hidden">Toggle Dropdown</span>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="index.html">Início</a></li>
+          <li><a class="dropdown-item" href="int_objetivos.html">Objetivos</a></li>
+          <li><a class="dropdown-item" href="int_ementa.html">Ementa</a></li>
+          <li><a class="dropdown-item" href="int_programa.html">Programa</a></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li><a class="dropdown-item" href="int_referencias.html">Referências bibliográficas</a></li>
+        </ul>
+      </div>
+      <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-wrap" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Baixando e preparando os dados de ocorrência
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+                <li><a class="dropdown-item" href="pratica1_objetivos.html">Objetivos</a></li>
+                <!---<li><a class="dropdown-item" href="#">Morfologia: busca TRADICIONAL pelo TNT</a></li>
+                <li><a class="dropdown-item" href="#">Morfologia: Busca com o uso de "NEW TECHNOLOGY" pelo TNT</a></li>--->
+                <li><a class="dropdown-item" href="PRATICA1_1.html">Baixando registros do GBIF e PBDB</a></li>
+                <li><a class="dropdown-item" href="PRATICA1_2.html">Limpeza</a></li>
+                <!----<li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="PARC_referencias.html">Referências</a></li>--->
+            </ul>
+         </li>
+         <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-wrap" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Distribuição, riqueza e viés
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+                <li><a class="dropdown-item" href="pratica2_objetivos.html">Objetivos</a></li>
+                <li><a class="dropdown-item text-wrap" href="PRATICA2_1.html">Quadrículas, irregular bins e viés</a></li>
+            </ul>
+         </li>
+         <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-wrap" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Métodos de identificação, padrões distribucionais, áreas de endemismo e componentes bióticos e regionalização
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark">
+              <li><a class="dropdown-item" href="pratica3_objetivos.html">Objetivos</a></li>
+              <li><a class="dropdown-item text-wrap" href="aula_pae_pce.html">PAE-PCE</a></li>
+          </ul>
+       </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!---- Exercícios -->
+  <div>
+    <p class="fs-2 text-success">First things first</p>
+    <ol>
+      <li class="fs-4 fw-normal">Crie um diretório de trabalho na raiz do seu computador. Evite muitos subdiretórios.
+      </li>
+      <li class="fs-4 fw-normal">É necessário também carregar os seguintes pacotes do CRAN: <code>curl, rgbif, paleobioDB, devtools, tidyverse,
+            readr, terra, taxsize, sf, string, rnaturalearth, countrycode e CoordinateCleaner</code>;</li>
+      <li class="fs-4 fw-normal">Instale e carregue também o pacote <code>fossilbrush</code>.</li>
+      <!---<li class="fs-4 fw-normal">Instale também o programa <a href="https://github.com/beast-dev/tracer/releases/tag/v1.7.2">Tracer</a> para a visualização de convergência das cadeias de Markov. </li>--->
+    </ol>
+    <p>Para instalar os pacotes taxsize e CoordinateCleaner, carregue o pacote devtools e digite
+      <code>install_github('ropensci/taxize')</code>
+      e <code>install_github('ropensci/CoordinateCleaner')</code>
+      porque esses pacotes só estão
+      disponíveis no github atualmente.</p>
+  </div>
+
+  <!--<p class="fw-semibold fs-6 lh-sm">Para usar o <a href="https://www.gbif.org/"><code>gbif</code></a>, você precisará ter uma conta de usuário GBIF. Isso normalmente não levará muito tempo para ser realizado, mas é importante fazer!
+    Vá para a aba de registro no canto superior direito da página inicial do GBIF e crie sua própria conta. <code>O GBIF só permite - até onde eu saiba -
+    três downloads por dia</code>, pois muito tráfego de download em uma única conta fará com que o servidor responda desfavoravelmente.</p>-->
+
+  <div class="accordion" id="accordionExample">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingOne">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+          aria-expanded="true" aria-controls="collapseOne">
+          Limpeza nos nomes citados
+        </button>
+      </h2>
+      <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+        data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <strong>Tutorial para fazer uma limpeza nos nomes baixados ("limpeza taxonômica")</strong>
+          <p></p>
+          <p class="fs-5 fw-normal">1) A limpeza dependerá inteiramente da natureza dos seus dados. Se você estiver lidando com uma única espécie, então pode ser
+                menos importante, embora você ainda precise verificar se há entradas desonestas. Para conjuntos de dados maiores e multi-táxons,
+                o risco de erros de taxonomia aumenta. O primeiro passo é garantir que todos os nomes estejam formatados corretamente: uma palavra,
+                além dos nomes das espécies, com a primeira letra maiúscula e todos os nomes livres de caracteres não alfabéticos. Se os nomes
+                contiverem informações adicionais relevantes (por exemplo, subespécies), extraia esses dados para sua própria coluna. Essas etapas
+                são todas muito fáceis de fazer individualmente.</p>
+          <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
+            <pre>
+                        # carregando a biblioteca:
+                        library(stringr)
+                        
+                        # carregando um exemplo de uma lista de nomes de espécies de avaes do <code>taxadb</code>
+                        bbs_species_list <- system.file("extdata/bbs.tsv", package = "taxadb")
+                        bbs <- read.delim(bbs_species_list)
+
+                        # fazendo todas as letras ficarem no formato caixa baixa, exceto a primeira que ficará em caixa alta: 
+                        bbs$species <- str_to_sentence(str_to_lower(bbs$species))
+                </pre>
+          </div>
+          <p></p>
+          <p class="fs-5 fw-normal">2) Faremos algumas contagens rápidas de palavras em nomes. Essas funções destacam o uso do <code>regex</code>.
+            A função <code>grep()</code> busca o vetor de nomes de gêneros para instâncias de espaços simples " ",  ou seja, separadores de palavras. A função <code>str_count()
+          </code> busca todas as instâncias de espaços em branco. Nesse caso, usaremos a sintaxe regex especial <strong>\s</strong> que é uma
+                abreviação para espaços em branco.</p>
+          <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
+            <pre>
+                    # contando o número de palavras em cada nome usando diferentes tipos de métodos
+                    grep(" ", bbs$genus)
+                    str_count(bbs$species, pattern = "\\s")
+                </pre>
+          </div>
+          <p>No primeiro exemplo, <code>grep()</code> nos diz que dois elementos do vetor do gênero contêm espaços em
+            branco,
+            embora esperemos que esses nomes sejam palavras únicas. No segundo exemplo, <code>st_count()</code> relata
+            contagens de
+            espaços em branco. Ele nos diz que a maioria dos nomes de espécies contém um único espaço em branco, como
+            esperado, mas não todos.
+            Essas são as irregularidades que queremos capturar.</p>
+          <p></p>
+          <p class="fs-5 fw-normal">3) Também podemos usar regex para procurar por quaisquer caracteres que não sejam letras ou espaços
+                em branco. Novamente, podemos ver alguma sintaxe especial: [] define um grupo de caracteres, enquanto ^ inverte o conjunto
+                subsequente de caracteres, ou seja, corresponde a qualquer coisa que <strong>não esteja nos conjuntos de a a z, A a Z e espaços
+                em branco</strong>. Podemos usar o resultado de grep para indexar também.</p>
+          <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
+            <pre>
+                    irreg <- grep("[^a-zA-Z ]", bbs$species)
+                    bbs$species[irreg]
+                  </pre>
+          </div>
+          <p></p>
+          <p class="fs-5 fw-normal">4) Infelizmente, ainda descobrimos que há irregularidades. Em alguns casos, poderíamos simplesmente
+                pegar as duas primeiras palavras, embora isso possa ser desaconselhável. Há uma razão pela qual esses nomes são dados da maneira
+                que são: eles não são de identificações certas, então será realmente que podemos usá-los? Em outros casos, as duas primeiras
+                palavras dariam um resultado inválido, por exemplo, a entrada 25 'Ardeid sp.' nem mesmo é classificada em nível de gênero.
+                Por enquanto, rejeitaremos as anomalias que identificamos até agora e continuaremos a limpar.</p>
+          <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
+            <pre>
+                    bbs <- bbs[-grep(" ", bbs$genus),]
+                    bbs <- bbs[str_count(bbs$species, pattern = "\\s") == 1,]
+                    bbs <- bbs[-grep("[^a-zA-Z ]", bbs$species)]
+                  </pre>
+          </div>
+          <p></p>
+          <p class="fs-5 fw-normal">5) Uma vez que a formatação esteja harmonizada, você pode verificar se há alguma fonte taxonômica
+                inválida. Novamente, isso dependerá inteiramente de quais dados você está usando, mas o pacote<code>
+          taxadb
+          </code> dá acesso a "esqueletos" de nomes em vários bancos de dados. Como os bancos de dados de ocorrência usam tabelas de taxonomia bem curadas,
+                  as chances são de que poucos erros sejam encontrados, mas isso ainda deve ser verificado usando a função<code>
+          get_ids()</code>.</p>
+          <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
+            <pre>
+                    # Carregando o pacote
+                    library(taxadb)
+
+                    # pegando os acertos
+                    matches <- get_ids(bbs$species, "col")
+                    bbs$species[which(is.na(matches))]
+                  </pre>
+          </div>
+          <p></p>
+          <p class="fs-5 fw-normal">6) Por fim, você pode usar métodos de sequências difusas para verificar discrepâncias de grafia.
+                  O pacote<code> fossilbrush </code>contém uma função para isso, onde os nomes são verificados entre si dentro
+                    de seus grupos taxonômicos maiores para reduzir o risco de correspondências falsas entre nomes semelhantes, mas genuinamente
+                    separados. Essa função também faz algumas verificações úteis, incluindo comprimentos de nomes corretos e caracteres
+                    não-letrados, mas também verifica se os táxons são atribuídos discretamente a táxons superiores únicos apenas.</p>
+          <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
+            <pre>
+                      # carregando o pacote
+                      library(fossilbrush)
+                      
+                      scans <- check_taxonomy(bbs, ranks = c("order", "genus", "species"), species_sep = " ")
+                      scans$synonyms
+                    </pre>
+          </div>
+          <p>Se examinarmos a verificação de sinônimos, podemos ver que algumas correspondências potenciais foram
+            identificadas
+            em alguns níveis taxonômicos diferentes. Essas correspondências ilustram os graus de similaridade de nomes
+            que podemos
+            encontrar, embora todos pareçam ser genuínos. Para ter certeza, tente obter IDs para todos os sinônimos
+            potenciais (t1 e t2)
+            em <code>scans$synonyms</code>. Será que todos são válidos?</p>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingTwo">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+          aria-expanded="true" aria-controls="collapseTwo">
+          Limpeza de coordenadas geográficas
+        </button>
+      </h2>
+      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="collapseTwo"
+        data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <strong>Rotina para carregar e limpar seu conjunto de coordenadas</strong>.
+          <p></p>
+          <p class="fs-4 fw-normal">Algumas questões para seu projeto de pesquisa:</p>
+          <ol>
+            <li class="fs-5 fw-normal">Quantos registros são potencialmente problemáticos?</li>
+            <li class="fs-5 fw-normal">Quais são os principais problemas encontrados neles?</li>
+            <li class="fs-5 fw-normal">Os registros obtidos no campo foram problemáticos? Se sim, o que aconteceu?</li>
+            <p></p>
+            <code class="fs-5 fw-normal">A) A limpeza é cumprida muito bem pelo pacote </code>CoordinateCleaner<code
+              class="fs-5 fw-normal">
+            já que ele é configurado para usar padrões Darwin Core ao pesquisar nomes de colunas e, assim, é plug-and-play com qualquer
+            conjunto de dados GBIF. É importante verificar seus dados num mapa para confirmar se tudo aparece como o esperado. <strong>As funções são
+            configuradas para assumir que os registros sejam terrestres, verificando que pontos caem nos oceanos.</strong> Antes, vamos ver o que esse
+            pacote faz em algumas das suas etapas:
+          </code>
+            <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
+              <pre>
+            # carregando as bibliotecas:
+            library(CoordinateCleaner)                        
+            library(sf)
+            library(rnaturalearth)
+            library(devtools)
+            library(tidyverse)
+            library(countrycode)
+            library(ggplot2)
+
+            # 1) Leitura dos <a href="Belostomatidae.txt">dados</a> a partir de um arquivo .txt ou .csv ou .tsv
+            dat_belos <- read_tsv("Belostomatidae.txt", guess_max = 25000, quote = "") # lendo, no máximo, 25 mil coordenadas
+
+            # para ver o nome e quantidade de colunas:
+            names(dat_belos)
+                        
+            # 2) algumas padronizações de nome de país e código e seleção das colunas que importam...
+            dat_belos <- dat_belos %>%
+              dplyr::select(species, decimalLongitude, decimalLatitude, countryCode, individualCount,
+              gbifID, family, taxonRank, coordinateUncertaintyInMeters, year,
+              basisOfRecord,occurrenceStatus)%>%
+              mutate(countryCode = countrycode(dat_belos$countryCode, origin =  'iso2c', destination = 'iso3c'))
+
+            # 3) visualizando as coordenadas num mapa
+            world.inp <- map_data("world")
+            p <- ggplot() +
+              geom_map(data = world.inp, map = world.inp, aes(x = long, y = lat, map_id = region), fill = "grey80")
+            p <- p + geom_point(data = dat_belos, aes(x = decimalLongitude, y = decimalLatitude), size = 1)
+            p <- p + coord_fixed() + theme_bw() + theme(axis.title = element_blank())
+            p <- p + ggtitle("Belostomatidae (GBIF: 8,505 records)") # título
+            p
+
+            # 4) removendo registros sem coordenadas
+            dat_clB <- dat_belos %>% filter(!is.na(decimalLongitude)) %>% filter(!is.na(decimalLatitude))
+
+            # para ver quantos registros existem agora:
+            dat_clB
+            
+            # 5) removendo registros de origem inadequada ou não aplicáveis
+            dat_clB <- filter(dat_clB, basisOfRecord == "HUMAN_OBSERVATION" | basisOfRecord == "OBSERVATION" |
+              basisOfRecord == "PRESERVED_SPECIMEN" |  basisOfRecord == "MATERIAL_SAMPLE" |
+              basisOfRecord == "LIVING_SPECIMEN MACHINE_OBSERVATION" | is.na(basisOfRecord))
+
+            # para ver quantos registros existem agora:
+            dat_clB
+
+            # 6) podemos excluir registros muito antigos...
+            dat_clB <- dat_clB %>% filter(year > 1945) # antes da Segunda Grande Guerra
+
+            # para ver quantos registros existem agora:
+            dat_clB
+
+            # 7) Só queremos incluir registros com identificação em nível de espécie
+            dat_clB <- dat_clB %>% filter(taxonRank %in% "SPECIES" | is.na(taxonRank))
+
+            # para ver quantos registros existem agora:
+            dat_clB           
+            
+            # salvando o arquivo novo e (supostamente) limpo
+            write_csv(dat_clB, "Belostomatidae_limpo.csv")
+
+                </pre>
+            </div>
+            <p></p>
+            <code
+              class="fs-5 fw-normal">B) A limpeza agora será realizada de forma automatizada pelo pacote </code>CoordinateCleaner<code
+              class="fs-5 fw-normal">.
+            Será conferido se coordenadas caem nos oceanos, se existem coordenadas "zero", se existem coordenadas dentro de cidades,
+            se existem dados discrepantes, se existem coordenadas dentro de institutos e museus etc.
+          </code>
+            <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
+              <pre>
+              # Dados de <a href="onca_original.csv">Panthera onca</a>:
+              # 1) Leitura dos dados a partir de um arquivo .txt ou .csv ou .tsv
+              dat_teste <- read_tsv("onca_original.csv", guess_max = 25000, quote = "") # lendo, no máximo, 25 mil coordenadas
+              dat_teste
+
+              # Pronto! Agora, é só rodar...
+              flagsA <- clean_coordinates(dat_teste)
+              ##########################################################
+              ##########################################################
+              # de forma alternativa, você pode fazer isso:
+              dat_teste <- data.frame(dat_teste)
+              flagsB <- clean_coordinates(x = dat_teste, lon = "decimalLongitude", lat = "decimalLatitude", countries = "countryCode",
+                              species = "species", tests = c("equal", "gbif", "zeros",
+                              "seas"), seas_ref = buffland)
+            ##########################################################
+
+            # podemos ver os pontos que ficaram e os que foram retirados:
+            plot(flagsA, lon = "decimalLongitude", lat = "decimalLatitude")
+
+            # podemos ver quantos registros foram excluídos:
+            sum(flagsA$.summary) # 6.091 pontos
+
+            # Agora, é só remover dos dados originais:
+            dat_teste_novo <- dat_teste[flagsA$.summary, ]
+
+            # Salve o dado novo e limpo:
+            write.csv(dat_teste_novo, 'panthera_occ_limpo.csv')
+            </pre>
+            </div>
+            <p></p>
+            <code class="fs-5 fw-normal">C) Quando lidarmos com uma espécie marinha, <strong>precisaremos inverter manualmente os valores
+            para que os registros dos oceanos passem, enquanto os dos continentes e ilhas não.</strong> Após isso, recalculamos o
+          </code> .summary <code class="fs-5 fw-normal"></code>.
+            <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
+              <pre>
+              flags <- flagsA %>%
+                mutate(.sea = !.sea) %>%
+                mutate(.summary = ifelse(rowSums(.[, 13:20]) == 8, TRUE, FALSE))
+              
+              sum(flags$.summary) # 850 registros
+
+              # podemos ver os pontos que ficaram e os que foram retirados:
+              plot(flags, lon = "decimalLongitude", lat = "decimalLatitude")
+
+              # Após a inspeção, podemos remover os registros de forma segura:
+              dat_oceano <- dat_clB[flags$.summary, ]
+
+              # Salve o dado novo e limpo:
+              write.csv(dat_oceano, 'Belos_occ_limpo_oceano.csv')
+            </pre>
+            </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+      crossorigin="anonymous"></script>
+</body>
+
+</html>

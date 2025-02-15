@@ -1,0 +1,985 @@
+<!doctype html>
+<html lang="br">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>pratica 2_1</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Métodos em Biogeografia Histórica</a>
+      <div class="btn-group">
+        <button type="button" class="btn btn-danger">Introdução</button>
+        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          <span class="visually-hidden">Toggle Dropdown</span>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="index.html">Início</a></li>
+          <li><a class="dropdown-item" href="int_objetivos.html">Objetivos</a></li>
+          <li><a class="dropdown-item" href="int_ementa.html">Ementa</a></li>
+          <li><a class="dropdown-item" href="int_programa.html">Programa</a></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li><a class="dropdown-item" href="int_referencias.html">Referências bibliográficas</a></li>
+        </ul>
+      </div>
+      <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-wrap" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Baixando e preparando os dados de ocorrência
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+                <li><a class="dropdown-item" href="pratica1_objetivos.html">Objetivos</a></li>
+                <!---<li><a class="dropdown-item" href="#">Morfologia: busca TRADICIONAL pelo TNT</a></li>
+                <li><a class="dropdown-item" href="#">Morfologia: Busca com o uso de "NEW TECHNOLOGY" pelo TNT</a></li>--->
+                <li><a class="dropdown-item" href="PRATICA1_1.html">Baixando registros do GBIF e PBDB</a></li>
+                <li><a class="dropdown-item" href="PRATICA1_2.html">Limpeza</a></li>
+                <!----<li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="PARC_referencias.html">Referências</a></li>--->
+            </ul>
+         </li>
+         <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-wrap" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Distribuição, riqueza e viés
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+                <li><a class="dropdown-item" href="pratica2_objetivos.html">Objetivos</a></li>
+                <li><a class="dropdown-item text-wrap" href="PRATICA2_1.html">Quadrículas, irregular bins e viés</a></li>
+            </ul>
+         </li>
+         <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-wrap" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Métodos de identificação, padrões distribucionais, áreas de endemismo e componentes bióticos e regionalização
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark">
+              <li><a class="dropdown-item" href="pratica3_objetivos.html">Objetivos</a></li>
+              <li><a class="dropdown-item text-wrap" href="aula_pae_pce.html">PAE-PCE</a></li>
+          </ul>
+       </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!---- Exercícios -->
+  <div>
+    <p class="fs-2 text-success">First things first</p>
+    <ol>
+      <li class="fs-4 fw-normal">Por favor, para o procedimento, baixe um conjunto de dados disponível <a
+          href='Belostomatidae.txt'>aqui</a> sobre baratas d'águas
+        ocorrentes no mundo (GBIF data). Para essa prática, também serão necessários as rotinas <a
+          href='calcRange_quadricula_MPC.R'>MPC</a> - para mínimos polígono convexos,
+        <a href="calcRange_buffer_quadricula.R">BUFF</a> - para buffers de área definida e <a
+          href="calcRange_MST_quadricula.R">MST</a> - para
+        <strong>minimal spanning trees</strong>;</li>
+        <li class="fs-4 fw-normal">Com o objetivo de criar arquivos <strong>NEXUS</strong> e para uso no
+        <strong>BioGeoBEARS</strong> com quadrículas,
+        baixe também as rotinas <a href="range_nexus.R">rangeNexus</a> e <a
+          href="range_BioGeoBears.R">rangeBioGeoBEARS</a>. Elas serão úteis para o
+        procedimento;</li>
+        <li class="fs-4 fw-normal">Use os seguintes polígonos para as práticas: <a
+          href='Americas_MORRONE_NEARTICO.zip'>morrone</a>,
+        <a href="Ecoregions2017.zip">ecorregiões</a> e <a href="regneotropical.zip">neotropical</a>.</li>
+        <li class="fs-4 fw-normal">Para a prática de viés de coleta, baixe os vetores de <a href="cities_gaz.zip">cidade</a>,
+          <a href="airp_gaz.zip">aeroportos</a>, <a href="rivers_gaz.zip">rios</a> e <a href="roads_gaz.zip">estradas</a> e os coloque
+          numa pasta chamada sampbias porque <strong>o R vai chamar de lá</strong>;</li>
+      <p></p>
+      <li class="fs-4 fw-normal">É necessário também instalar e carregar os seguintes pacotes do CRAN:
+        <code>devtools, tidyverse, lwgeom, tmap, sdmpredictors, viridis,
+            readr, terra, sf, countrycode, CoordinateCleaner, ggplot2, paleobioDB, speciesgeocodeR, letsR, dismo, fossil e sampbias</code>.
+      </li>
+      <!---<li class="fs-4 fw-normal">Instale e carregue também o pacote <code>fossilbrush</code>.</li>--->
+      <!---<li class="fs-4 fw-normal">Instale também o programa <a href="https://github.com/beast-dev/tracer/releases/tag/v1.7.2">Tracer</a> para a visualização de convergência das cadeias de Markov. </li>--->
+    </ol>
+    <p>Para instalar o pacote <code>speciesgeocodeR</code>, carregue o pacote devtools e digite:</p>
+    <p><code>install.packages("rgeos", repos="http://R-Forge.R-project.org")</code></p>
+    <p><code>install.packages("rgdal", repos="http://R-Forge.R-project.org")</code></p>
+    <p>Só depois <code>devtools::install_github("azizka/speciesgeocodeR")</code> porque esse pacote só está
+      disponível no github atualmente.</p>
+  </div>
+
+  <!--<p class="fw-semibold fs-6 lh-sm">Para usar o <a href="https://www.gbif.org/"><code>gbif</code></a>, você precisará ter uma conta de usuário GBIF. Isso normalmente não levará muito tempo para ser realizado, mas é importante fazer!
+    Vá para a aba de registro no canto superior direito da página inicial do GBIF e crie sua própria conta. <code>O GBIF só permite - até onde eu saiba -
+    três downloads por dia</code>, pois muito tráfego de download em uma única conta fará com que o servidor responda desfavoravelmente.</p>-->
+
+  <div class="accordion" id="accordionExample">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingOne">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+          aria-expanded="true" aria-controls="collapseOne">
+          Quadrículas
+        </button>
+      </h2>
+      <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+        data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <strong><a href='tutorial_quadrículas.R'>Rotina</a> para extrapolar áreas de distribuição baseadas em quadrículas</strong>
+          <p></p>
+          <p class="fs-5 fw-normal">1) Leitura dos dados a partir de um arquivo .txt ou .csv de um arquivo baixado de um
+            banco de dados ou ainda
+            não limpo. <strong>Uma filtragem preliminar, pegando apenas as coordenadas e as espécies, será
+              feita.</strong></p>
+          <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
+            <pre>
+              library(dplyr)
+              library(ggplot2)
+              library(devtools)
+              
+              library(CoordinateCleaner)
+              library(countrycode)
+              library(paleobioDB)
+              library(readr)
+              library(terra)
+              library(viridis)
+              library(tidyverse)
+              library(sf)
+              
+              library(speciesgeocodeR)
+              library(letsR)
+              library(dismo)
+              library(fossil)
+              
+              
+              dat_bel <- read_tsv(file = 'Belostomatidae.txt')
+              dat_bel
+              
+              dat_clB <- dat_bel %>% filter(taxonRank %in% "SPECIES" | is.na(taxonRank))
+              
+              dat_bel <- dat_bel %>%
+                dplyr::select(species, decimalLongitude, decimalLatitude)
+              
+              head(dat_bel)
+              
+              dat_bel <- as.data.frame(dat_bel)
+              dat_bel
+                </pre>
+          </div>
+          <p></p>
+          <p class="fs-5 fw-normal">2) Limpeza básica dos dados. É importante ter como título das colunas de coordenadas
+            <strong>decimalLatitude</strong> para
+            latitudes e <strong>decimalLongitude</strong> para longitudes.
+          </p>
+          <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
+            <pre>
+              ###### Iremos verificar se as coordenadas são válidas
+              cl <- cc_val(dat_bel, lat = "decimalLatitude", lon = "decimalLongitude")
+              cl
+              
+              fl <- cc_equ(cl, value = "flagged", lat = "decimalLatitude", lon = "decimalLongitude")
+              fl
+              
+              cl <- cl[fl, ]
+              cl
+              
+              # tirando os NAs 
+              belos <- na.omit(cl)
+              belos
+              
+              # Excluindo duplicados
+              pontos_dups <- duplicated(belos)
+              pontos_dups
+              
+              # Mas quantas coordenadas são duplicadas?
+              length(which(pontos_dups==TRUE)) # 4003
+              
+              # E quantas não são?
+              length(which(pontos_dups==FALSE)) # 11537
+              
+              # Uma forma de limpar os dados
+              # gerar um novo objeto e guardar todas as coordenadas duplicadas
+              dupl <- which(pontos_dups==TRUE)
+              dupl # obs.: o que foi gravado? as coordenadas?
+              
+              # Criar um novo objeto sem os duplicados
+              nodupl <- belos[-dupl,]
+              dim(nodupl) # 11537 pontos
+              ################################################################
+              ################################################################
+              
+              # para termos uma matriz com as espécies como nomes de linhas:
+              head(nodupl)
+              
+              belostoD <- data.frame(id = 1:nrow(nodupl), species = nodupl$species)
+              belostoV <- vect(nodupl, geom = c("decimalLongitude", "decimalLatitude"),
+                            crs = "+proj=longlat +datum=WGS84")
+              belostoV
+
+                </pre>
+          </div>
+          <p></p>
+          <p class="fs-5 fw-normal">3) Lendo uma ou mais camadas vetorizadas <strong>(shapefiles ou polígonos)</strong>
+          </p>
+          <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
+            <pre>
+              # MORRONE SHAPE FILE:
+              morrone <- vect('Americas_MORRONE_NEARTICO.shp') # objeto Spatial
+              crs(morrone) <- "+proj=longlat +datum=WGS84"
+              
+              # se quiser plotar apenas um local do vetor
+              plot(morrone[morrone$Dominio == 'Parana'])
+              morrone
+              ##########################################################
+              ##########################################################
+              
+              # ecorregiões SHAPE FILE:
+              ecorr <- vect('Ecoregions2017.shp')
+              ecorr
+              
+              # se quiser plotar apenas um bioma do vetor
+              plot(ecorr[ecorr$BIOME_NAME == 'Tundra'])
+              ##########################################################
+              ##########################################################
+              
+              # neotropical SHAPE FILE:
+              neo <- vect('regneotropical.shp')
+              neo
+              crs(neo) <- "+proj=longlat +datum=WGS84"
+              neo
+              plot(neo)
+              ##########################################################
+              ##########################################################
+              
+              # seleção dos pontos para uma região especificada
+              pts_belosto_bons <- belostoV[neo, ]
+              plot(pts_belosto_bons, cex = 0.8, col = "green")
+              
+              # pegando as coordenadas desse vetor:
+              belos_bons <- geom(pts_belosto_bons)[, c('x', 'y')]
+              
+              # extraindo os atributos
+              labels <- as.data.frame(pts_belosto_bons)[, ('species')]
+              
+              # criando a matriz final combinada
+              belos_bons_final <- data.frame(species = labels, belos_bons)
+              
+              
+              # Plotando os pontos sobre os mapas
+              points(belos_bons_final[, c(2, 3)], col = 'red', pch = 19)
+              dim(belos_bons_final) # 862 pontos
+
+                  </pre>
+          </div>
+          <p></p>
+          <p class="fs-5 fw-normal">4) Generalizando distribuições a partir de quadrículas e gerando mapas de riqueza
+            com Mínimos Polígonos
+            Convexos ou <strong>Convex hulls</strong>, buffers de área definida e MSTs. É importante carregar as rotinas
+            que você já baixou antes da
+            começar a prática. <strong>Não
+              se esqueça delas</strong>! Serão criados também diretórios onde os arquivos serão destinados. Não se
+            preocupe: tudo será feito de forma
+            automatizada.</p>
+          <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
+            <pre>
+
+              ######## MÍNIMOS POLÍGONOS CONVEXOS ##################
+              source('calcRange_quadricula_MPC.R')
+
+              # importante mudar o nomes das colunas para long e lat
+              colnames(belos_bons_final) <- c('species', 'long', 'lat')
+              rang1 <- CalcRange_quadricula_MPC(x = belos_bons_final, shape_file = neo, resol = 5) # quadrículas de 5 graus
+              rang1$pres_abs # matriz de presença e ausência
+              rang1$geometry # raster com os valores
+              
+              # plotando
+              cores <- viridis(n = 10, alpha = 0.5, option = 'B')
+              plot(neo)
+              plot(rang1$geometry, col = cores, add =T)
+              
+              
+              ## shapefiles dos mínimos polígonos convexos
+              nomes <- unique(labels)
+              nomes
+              resul <- table(belos_bons_final$species)
+              names(resul)
+              resul[1]
+              
+              MPC_shapes_n <- list()
+              pasta <- 'MPC_'
+              for(k in 1:length(nomes)){
+                if(resul[k] < 3){
+                  next
+                }
+                MPC_shapes_n[[k]] <- vect(paste0('out_MPC/', pasta, names(resul)[k], '/MPC_', names(resul)[k], '.shp'))
+              }
+              MPC_shapes_n <- MPC_shapes_n[-which(sapply(MPC_shapes_n, is.null))]
+              MPC_shapes_n
+              # plotando os shapefiles no mapa
+              for(i in 1:length(MPC_shapes_n)){
+                plot(MPC_shapes_n[[i]], add = T)
+              }
+
+              ####################################################################
+              ########## BUFFERS DE ÁREA DEFINIDA ################################
+              source('calcRange_buffer_quadricula.R')
+
+              # lembrando que é necessário ter esses títutlos de colunas: long e lat
+              colnames(belos_bons_final) <- c('species', 'long', 'lat')
+              rang2 <- CalcRangeBuffer_q(x = belos_bons_final, shape_file = neo, resol = 5, buffer.width = 500000)
+
+              plot(neo)
+              plot(rang2$geometry, add = T, col = cores)
+
+              BUFF_shapes_n <- list()
+              pasta <- 'BUFF_'
+              for(k in 1:length(nomes)){
+                if(resul[k] < 3){
+                  next
+                }
+                BUFF_shapes_n[[k]] <- vect(paste0('out_buffers/', pasta, names(resul)[k], '/BUFF_', names(resul)[k], '.shp'))
+              }
+              BUFF_shapes_n <- BUFF_shapes_n[-which(sapply(BUFF_shapes_n, is.null))]
+              BUFF_shapes_n
+
+              # plotando os shapefiles no mapa
+              for(i in 1:length(BUFF_shapes_n)){
+                plot(BUFF_shapes_n[[i]], add = T)
+              }
+
+              ###############################################################################
+              #################### MINIMAL SPANNING TREES (MSTs) ############################
+              source('calcRange_MST_quadricula.R')
+
+              # lembrando que é necessário ter esses títutlos de colunas: long e lat
+              colnames(belos_bons_final) <- c('species', 'long', 'lat')
+              rang3 <- CalcRangeMST_q(x = belos_bons_final, shape_file = neo, resol = 5)
+
+              plot(neo)
+              plot(rang3$geometry, add = T, col = cores)
+
+              ## shapefiles dos MSTs
+              MST_shapes_n <- list.files('out_MST/', pattern = "^mst_.*\\.shp$", full.names = T)
+              MST_shapes_n
+              MST_shapes <- list()
+              for(k in 1:length(MST_shapes_n)){
+                MST_shapes[[k]] <- vect(MST_shapes_n[k])
+              }
+              MST_shapes
+
+              # plotando os shapefiles no mapa
+              for(i in 1:length(MST_shapes)){
+                plot(MST_shapes[[i]], add = T)
+              }
+                  </pre>
+          </div>
+          <p></p>
+          <p class="fs-5 fw-normal">5) Gerando matrizes de presença/ausência das espécies nas áreas nos formatos
+            <strong>NEXUS</strong> e <strong>BioGeoBEARS</strong>.
+            Também será necessário carregar rotinas. Novamente, <strong>não se esqueça delas</strong>!
+          </p>
+          <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
+            <pre>
+
+              # NEXUS
+              source('range_nexus.R')
+
+              Range_nexus(rang1$pres_abs, meto = 'MPC') # o método usado foi o dos mínimos polígonos convexos; logo, o arquivo estará disponível no diretório /out_mat e terá a sigla MPC
+              
+              Range_nexus(rang2$pres_abs, meto = 'BUFF') # o método usado foi o dos buffers; logo, o arquivo estará disponível no diretório /out_mat e terá a sigla BUFF
+              
+              Range_nexus(rang3$pres_abs, meto = 'MST') # o método usado foi o dos MSTs; logo, o arquivo estará disponível no diretório /out_mat e terá a sigla MST
+                  
+            
+              # BioGeoBEARS
+              source('range_BioGeoBears.R')
+              
+              Range_BioGeoBears(rang1$pres_abs, meto = 'MPC') # o arquivo estará disponível no diretório /out_mat
+
+
+            </pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingTwo">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+          aria-expanded="true" aria-controls="collapseTwo">
+          Irregular bins
+        </button>
+      </h2>
+      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="collapseTwo"
+        data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <strong><a href="tutorial_irregular_bins.R">Rotina</a> para estimar riqueza de espécies em áreas irregulares como domínios, biomas, países, cidades
+            etc.</strong>.
+          <p></p>
+          <p class="fs-4 fw-normal">Algumas questões para seu projeto de pesquisa:</p>
+          <ol>
+            <li class="fs-5 fw-normal">Quantas espécies existem numa determinada área?</li>
+            <li class="fs-5 fw-normal">Que região tem mais espécies?</li>
+            <p></p>
+            <p class="fs-5 fw-normal">Escolheremos as áreas determinadas no polígono modificado do Morrone, onde
+              encontramos domínios,
+              regiões, reinos, províncias etc. Além disso, vamos obter arquivos de saída já preparados para as análises
+              a serem realizadas
+              durante a semana. É importante dizer que essa parte da prática é bem diferente do que fizemos, porque usa
+              uma outra abordagem.
+              Nessa prática, escolheremos como divisão os <strong>domínios</strong>.</p>
+            <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
+              <pre>
+                # irregular bins:
+                # MORRONE SHAPE FILE:
+                morrone <- vect('Americas_MORRONE_NEARTICO.shp') # objeto Spatial
+                crs(morrone) <- "+proj=longlat +datum=WGS84"
+                plot(morrone)
+                
+                head(belos_bons_final) # Objeto com dados obtidos anteriormente
+                bel_sf <- st_as_sf(x = belos_bons_final, coords = c('long', 'lat'))
+                bel_sf
+                st_crs(bel_sf) <- "+proj=longlat +datum=WGS84"
+                plot(bel_sf$geometry, add = T)
+
+
+                head(belos_bons_final)
+                colnames(belos_bons_final) <- c('species', 'decimallongitude',
+                                                'decimallatitude')
+                morrone_sf <- as(morrone, 'Spatial')
+                plot(morrone_sf)
+
+
+                # Domínios foram escolhidos
+                morrone_sf@data$Dominio
+
+
+                sp.class <- SpGeoCod(belos_bons_final, morrone_sf, areanames = "Dominio")
+                sp.class
+
+                summary(sp.class)
+
+                plot(sp.class) # mostra quem foi e não foi classificado corretamente
+                
+                plot(sp.class, type = "speciesrichness") # histograma com a quantidade de espécies por domínio
+                
+                head(sp.class$spec_table) # tabela com as ocorrências
+                
+                WriteOut(sp.class, type = "nexus") # produz um arquivo species_classification.nex que fica onde o R está "enxergando"
+                WriteOut(sp.class, type = 'BioGeoBEARS') # os nomes das espécies não apresentam '_', e o arquivo se chama BioGeoBEARS.txt. Ele também fica onde o R está "enxergando"
+                ##################################################################################
+
+                ##################################################################################
+                ############## ver o mapa do Morrone com os valores ##############################
+                # Transformar os pontos em um objeto espacial
+                belo_sf <- st_as_sf(belos_bons_final,
+                      coords = c('decimallongitude',
+                                'decimallatitude'), crs = 4326) # Ajuste os nomes das colunas de coordenadas conforme necessário
+                belo_sf
+
+                morrone_sf <- st_read('Americas_MORRONE_NEARTICO.shp')
+                morrone_sf
+                pot_sf <- st_transform(belo_sf, st_crs(morrone_sf))
+                pot_sf
+
+                # Fazer a interseção para saber a qual bioma cada ocorrência pertence
+                pot_dominio <- st_join(pot_sf, morrone_sf) # vai dar erro!
+
+                # Verifica se há problemas de geometria
+                st_is_valid(morrone_sf) # aparentemente existe problema porque apareceu FALSE em algum lugar
+
+                library(lwgeom)  # Pacote necessário para st_make_valid()
+
+                # Corrigir as geometrias inválidas
+                morrone_sf <- st_make_valid(morrone_sf)
+
+                # Verificar novamente
+                all(st_is_valid(morrone_sf))  # Deveria retornar TRUE, mas não retornou
+
+                # você pode filtrar geometrias inválidas:
+                morrone_sf <- morrone_sf[st_is_valid(morrone_sf), ]
+
+                # Fazer a interseção para saber a qual domínio cada ocorrência pertence
+                pot_dominio <- st_join(pot_sf, morrone_sf)
+                pot_dominio
+
+                # Contar a diversidade por domínio (número de espécies únicas por domínio)
+                nspec_dominio <- pot_dominio %>%
+                  group_by(Dominio) %>%  # Ajuste para o nome correto da coluna de domínios
+                  summarise(nspec = n_distinct(species))
+
+                nspec_dominio
+
+                names(morrone_sf)
+
+                # Converter `morrone_sf` para um `data.frame` antes do join
+                morrone_data <- as.data.frame(morrone_sf) %>%
+                  dplyr::select(Dominio, geometry)
+                plot(morrone_data$geometry)
+
+                # Unir os dados ao shapefile dos dominios
+                sf_dominio <- left_join(morrone_data, nspec_dominio, by = "Dominio")
+                sf_dominio <- st_as_sf(sf_dominio)
+
+                # Visualizar no mapa
+                plot(sf_dominio["nspec"],
+                    main = "Diversidade de Espécies por Domínio",
+                    col = terrain.colors(10))
+
+                library(tmap) # mapa interativo
+
+                # Ativar modo de visualização interativa
+                tmap_mode("view")
+
+                # Criar mapa temático
+                tm_shape(sf_dominio) +
+                  tm_polygons("nspec", palette = "viridis", title = "Diversidade de Espécies") +
+                  tm_layout(legend.outside = TRUE)
+
+                </pre>
+            </div>
+        </div>
+      </div>
+    </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingThree">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+            Exercício
+          </button>
+        </h2>
+        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="collapseThree"
+          data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <p class="fs-4 fw-normal">Algumas questões para seu projeto de pesquisa:</p>
+            <ol>
+              <li class="fs-5 fw-normal">Quantas espécies são registradas numa determinada ecorregião?</li>
+              <li class="fs-5 fw-normal">Posso obter esse resultado?</li>
+            </ol>
+              <!----<li class="fs-5 fw-normal">Os registros obtidos no campo foram problemáticos? Se sim, o que aconteceu?</li>-->
+              <p></p>
+              <p class="fst-italic fs-5">Tente estimar a riqueza de espécies das ecorregiões disponíveis no arquivo de
+                polígono fornecido, com
+                base nas espécies que você tem.</p>
+              <p class="fs-5 fw-semibold">Vamos deixar um esqueleto de código abaixo:</p>
+              <p></p>
+              <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
+                <pre>
+                  # ecorregiões SHAPE FILE:
+                  ecorr_sf <- st_read('Ecoregions2017.shp')
+                  ecorr_sf  
+                  
+              </pre>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingFour">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour"
+            aria-expanded="true" aria-controls="collapseFour">
+            Viés de coleta
+          </button>
+        </h2>
+        <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="collapseFour"
+          data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <strong><a href="tutorial_sampbias.R">Rotina</a> para estimar o viés de registros a partir de um modelo bayesiano</strong>.
+            <p></p>
+            <p class="fs-4 fw-normal">Algumas questões para seu projeto de pesquisa:</p>
+            <ol>
+              <li class="fs-5 fw-normal">Meus dados aparentam ter algum viés de coleta?</li>
+              <li class="fs-5 fw-normal">Que fator poderia estar facilitando a obtenção de meus registros?</li>
+              <p></p>
+              <p class="fs-5 fw-normal">O <a href="https://github.com/azizka/sampbias">manual rápido</a> do pacote <code>sampbias</code> usa
+                apenas <strong>estradas, aeroportos, rios e cidades</strong> como seus fatores. Aqui, escolheremos algumas outras coisas
+                baseadas em rasters de variáveis ambientais e veremos como proceder.</p>
+              <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
+                <pre>
+                  ###################################################
+                  ############ rotina para sample bias ##############
+                  library(sampbias)
+                  library(sf)
+
+                  # convertendo para um vetor:
+                  belo_sf <- st_as_sf(x = belos_bons_final,
+                                    coords = c("decimallongitude",
+                                                "decimallatitude"))
+                  st_crs(belo_sf) <- "+proj=longlat +datum=WGS84"
+
+                  # neotropical SHAPE FILE:
+                  neo_sf <- st_read('regneotropical.shp')
+                  neo_sf
+                  st_crs(neo_sf) <- "+proj=longlat +datum=WGS84"
+                  pot_sf <- st_transform(belo_sf, st_crs(neo_sf))
+                  pot_sf
+
+                  plot(neo_sf$geometry)
+
+                  # fazendo a exclusão de outros pontos fora da região:
+                  belo_sf_mod <- st_contains_properly(neo_sf$geometry, belo_sf) # subamostrar os pontos terrestres
+                  belo_sf_mod
+
+                  # BAIXANDO CAMADAS AMBIENTAIS DE INTERESSE ####
+                  library(devtools)
+                  library(sdmpredictors)
+                  library(terra)
+                  
+                  # acesso a diferentes conjuntos de dados
+                  pred_datasets <- list_datasets(terrestrial = TRUE, marine = TRUE)
+                  pred_datasets
+                  names(pred_datasets)
+                  pred_datasets[ , 1:4]  # these are the datasets currently available for download using the 'sdmpredictors' package; you can check their URLs for more info on their contents
+                  pred_datasets[ , c("dataset_code", "citation")]  # remember to ALWAYS cite the actual data sources, not just the package you used for downloading!
+
+                  pred_layers <- list_layers(datasets = pred_datasets)
+                  unique(pred_layers$dataset_code)
+                  unique(pred_layers[pred_layers$dataset_code == "WorldClim", ]$name)  # example of terrestrial variables dataset
+                  
+                  # vamos escolher do WorldClim pluviosidade e altitude:
+                  layers_choice1 <- unique(pred_layers[pred_layers$dataset_code == "WorldClim", c("name", "layer_code")])
+                  layers_choice1
+                  layers_choice1 <- layers_choice1[c(1, 13:20), ]
+                  layers_choice1
+
+                  # Freshwater:
+                  layers_choice2 <- unique(pred_layers[pred_layers$dataset_code == "Freshwater", c("name", "layer_code")])
+                  layers_choice2
+                  layers_choice2 <- layers_choice2[c(127, 128), ]
+                  layers_choice2
+
+                  # define o diretório para baixar as camadas:
+                  options(sdmpredictors_datadir = "../outputs/sdmpredictors")
+                  # load the layers to the current R session (downloading them if they aren't already in the folder defined above):
+                  layers1 <- load_layers(layers_choice1$layer_code, rasterstack = FALSE)  # rasterstack=TRUE gives error when there are layers with different extent
+                  layers1  # a list of raster maps
+                  # see how many elements in 'layers':
+                  length(layers1)
+
+                  layers2 <- load_layers(layers_choice2$layer_code, rasterstack = FALSE)  # rasterstack=TRUE gives error when there are layers with different extent
+                  layers2  # a list of raster maps
+
+
+                  # convertendo cada camada para um objeto da classe 'SpatRaster' (pacote 'terra')
+                  layers1 <- lapply(layers1, rast)
+                  plot(layers1[[1]], main = names(layers1)[1])
+                  plot(layers1[[5]], main = names(layers1)[5])
+
+                  # layers2 <- lapply(layers2, rast)
+                  # plot(layers2[[1]], main = names(layers2)[1])
+                  # plot(layers2[[2]], main = names(layers2)[2])
+
+                  # verificando resoluções e extensões: a resolução das camadas no R vai até 0.0833333, mas ela pode ser piorada sempre que quiser
+                  unique(pred_layers[pred_layers$dataset_code == "WorldClim", ]$cellsize_lonlat)  
+                  sapply(layers1, ext)  # if you get different extents (which doesn't happen with WorldClim, but may happen with other datasets), you'll have to crop all layers to the minimum common extent before proceeding
+                  
+                  # for example, if the first layer has the smallest extent:
+                  # layers <- lapply(layers, crop, extent(layers[[1]]))
+                  
+                  # unique(pred_layers[pred_layers$dataset_code == "Freshwater", ]$cellsize_lonlat)  # in this case 0.08333333 - spatial resolution can then be coarsened as adequate for your species data and modelling region (see below)
+                  # sapply(layers2, ext)  # if you get different extents (which doesn't happen with WorldClim, but may happen with other datasets), you'll have to crop all layers to the minimum common extent before proceeding
+
+                  # ATENÇÃO: AS LAYERS 2 APRESENTAM EXTENSÃO MENOR, MAS POSSUEM RESOLUÇÃO MAIS FINA!
+                  layers1 <- lapply(layers1, crop, ext(layers2[[1]]))
+                  sapply(layers1, ext)
+                  plot(layers1[[1]])
+                  # plot(layers2[[1]])
+
+                  datum <- "+proj=longlat +datum=WGS84"
+                  
+                  camadas_cut1 <- rast(layers1)
+                  plot(camadas_cut1)
+                                    
+                  camadas_cut1 <- mask(crop(camadas_cut1, neo_sf), neo_sf)
+                  plot(camadas_cut1[[1]])
+                  
+                  camadas_cut1 <- project(camadas_cut1, datum)
+                  
+                  camadas_cut1[[1]]@ptr$range_max # valor máximo
+
+                  # pontos:
+                  plot(neo_sf$geometry, border = 'tan')
+                  plot(belo_sf[unlist(belo_sf_mod), ], col = 'darkblue', cex = 0.4, add = T)
+
+                  # ------------- CV chuva -----------------
+                  plot(camadas_cut1[[5]])
+                  CVLayerPrec <- camadas_cut1[[5]]
+                  CVLayerPrec <- aggregate(CVLayerPrec, fact = 5)
+                  plot(CVLayerPrec)
+
+                  # threshold our CV raster into bands, and specify a more convenient
+                  # 25%
+                  thresh_25 <- classify(CVLayerPrec,
+                                        rcl = rbind(c(-Inf, camadas_cut1[[5]]@ptr$range_max*0.25, 1),
+                                                    c(camadas_cut1[[5]]@ptr$range_max*0.25, Inf,  2)))
+                  plot(thresh_25)
+
+                  # convert our thresholded raster to a set of sf polygons
+                  CV_25 <- st_as_sf(as.points(thresh_25))
+                  CV_25 <- st_cast(CV_25, "MULTIPOINT")
+                  library(viridis)
+                  plot(CV_25)
+                  st_crs(CV_25) <- "+proj=longlat +datum=WGS84"
+                  CV_25$WC_bio15[CV_25$WC_bio15==2] <- NA
+                  plot(CV_25)
+
+                  CV_v_25 <- vect(CV_25)
+                  CV_v_25
+                  ######################################
+                  
+                  # threshold our CV raster into bands, and specify a more convenient
+                  # 50%
+                  thresh_50 <- classify(CVLayerPrec,
+                                        rcl = rbind(c(-Inf, camadas_cut1[[5]]@ptr$range_max*0.50, 1),
+                                                    c(camadas_cut1[[5]]@ptr$range_max*0.50, Inf,  2)))
+                  plot(thresh_50)
+
+                  # convert our thresholded raster to a set of sf polygons
+                  CV_50 <- st_as_sf(as.points(thresh_50))
+                  CV_50 <- st_cast(CV_50, "MULTIPOINT")
+                  plot(CV_50)
+                  st_crs(CV_50) <- "+proj=longlat +datum=WGS84"
+                  CV_50$WC_bio15[CV_50$WC_bio15==2] <- NA
+                  plot(CV_50)
+
+                  CV_v_50 <- vect(CV_50)
+                  CV_v_50
+                  #############################
+                  
+                  # threshold our CV raster into bands, and specify a more convenient
+                  # 50%
+                  thresh_75 <- classify(CVLayerPrec,
+                                        rcl = rbind(c(-Inf, camadas_cut1[[5]]@ptr$range_max*0.75, 1),
+                                                    c(camadas_cut1[[5]]@ptr$range_max*0.75, Inf,  2)))
+                  plot(thresh_75)
+
+                  # convert our thresholded raster to a set of sf polygons
+                  CV_75 <- st_as_sf(as.points(thresh_75))
+                  CV_75 <- st_cast(CV_75, "MULTIPOINT")
+                  plot(CV_75)
+                  st_crs(CV_75) <- "+proj=longlat +datum=WGS84"
+                  CV_75$WC_bio15[CV_75$WC_bio15==2] <- NA
+                  plot(CV_75)
+
+                  CV_v_75 <- vect(CV_75)
+                  CV_v_75
+                  # CV = as.data.frame(CV, xy = TRUE); sp::coordinates(CV) = ~x+y
+                  # plot(CV_v)
+
+                  # ---------------- pluviosidade anual -------------------
+                  pluviAnual <- camadas_cut1[[2]]
+                  plot(pluviAnual)
+                  pluviAnual <- aggregate(pluviAnual, fact = 5)
+
+                  #############################
+                  # threshold our CV raster into bands, and specify a more convenient
+                  # 25%
+                  thresh_25 <- classify(pluviAnual,
+                                        rcl = rbind(c(-Inf, camadas_cut1[[2]]@ptr$range_max*0.25, 1),
+                                                    c(camadas_cut1[[2]]@ptr$range_max*0.25, Inf,  2)))
+                  plot(thresh_25)
+
+                  # convert our thresholded raster to a set of sf polygons
+                  pluviAnual_25 <- st_as_sf(as.points(thresh_25))
+                  pluviAnual_25 <- st_cast(pluviAnual_25, "MULTIPOINT")
+                  plot(pluviAnual_25)
+                  st_crs(pluviAnual_25) <- "+proj=longlat +datum=WGS84"
+                  pluviAnual_25$WC_bio12[pluviAnual_25$WC_bio12==2] <- NA
+                  plot(pluviAnual_25)
+
+                  pluviAnual_v_25 <- vect(pluviAnual_25)
+                  
+                  # ---------------- altitude -------------------
+                  altitude <- camadas_cut1[[1]]
+                  plot(altitude)
+                  altitude <- aggregate(altitude, fact = 5)
+
+                  #############################
+                  # threshold our CV raster into bands, and specify a more convenient
+                  # 25%
+                  thresh_25 <- classify(altitude,
+                                        rcl = rbind(c(-Inf, camadas_cut1[[1]]@ptr$range_max*0.25, 1),
+                                                    c(camadas_cut1[[1]]@ptr$range_max*0.25, Inf,  2)))
+                  plot(thresh_25)
+
+                  # convert our thresholded raster to a set of sf polygons
+                  alt_25 <- st_as_sf(as.points(thresh_25))
+                  alt_25 <- st_cast(alt_25, "MULTIPOINT")
+                  library(viridis)
+                  plot(alt_25)
+                  st_crs(alt_25) <- "+proj=longlat +datum=WGS84"
+                  alt_25$WC_alt[alt_25$WC_alt==2] <- NA
+                  plot(alt_25)
+
+                  alt_v_25 <- vect(alt_25)
+                  #############################
+                  
+                  # threshold our CV raster into bands, and specify a more convenient
+                  # 50%
+                  thresh_50 <- classify(altitude,
+                                        rcl = rbind(c(-Inf, camadas_cut1[[1]]@ptr$range_max*0.50, 1),
+                                                    c(camadas_cut1[[1]]@ptr$range_max*0.50, Inf,  2)))
+                  plot(thresh_50)
+
+                  # convert our thresholded raster to a set of sf polygons
+                  alt_50 <- st_as_sf(as.points(thresh_50))
+                  alt_50 <- st_cast(alt_50, "MULTIPOINT")
+                  plot(alt_50)
+                  st_crs(alt_50) <- "+proj=longlat +datum=WGS84"
+                  alt_50$WC_alt[alt_50$WC_alt==2] <- NA
+                  plot(alt_50)
+
+                  alt_v_50 <- vect(alt_50)
+                  #############################
+                  
+                  # threshold our CV raster into bands, and specify a more convenient
+                  # 75%
+                  thresh_75 <- classify(altitude,
+                                        rcl = rbind(c(-Inf, camadas_cut1[[1]]@ptr$range_max*0.75, 1),
+                                                    c(camadas_cut1[[1]]@ptr$range_max*0.75, Inf,  2)))
+                  plot(thresh_75)
+
+                  # convert our thresholded raster to a set of sf polygons
+                  alt_75 <- st_as_sf(as.points(thresh_75))
+                  alt_75 <- st_cast(alt_75, "MULTIPOINT")
+                  plot(alt_75)
+                  st_crs(alt_75) <- "+proj=longlat +datum=WGS84"
+                  alt_75$WC_alt[alt_75$WC_alt==2] <- NA
+                  plot(alt_75)
+
+                  alt_v_75 <- vect(alt_75)
+                  #############################
+                  
+                  # threshold our CV raster into bands, and specify a more convenient
+                  # 10%
+                  thresh_10 <- classify(altitude,
+                                        rcl = rbind(c(-Inf, camadas_cut1[[1]]@ptr$range_max*0.10, 1),
+                                                    c(camadas_cut1[[1]]@ptr$range_max*0.10, Inf,  2)))
+                  plot(thresh_10)
+
+                  # convert our thresholded raster to a set of sf polygons
+                  alt_10 <- st_as_sf(as.points(thresh_10))
+                  alt_10 <- st_cast(alt_10, "MULTIPOINT")
+                  plot(alt_10)
+                  st_crs(alt_10) <- "+proj=longlat +datum=WGS84"
+                  alt_10$WC_alt[alt_10$WC_alt==2] <- NA
+                  plot(alt_10)
+
+                  alt_v_10 <- vect(alt_10)                  
+
+                  ##################################
+                  # camadas gazeteers
+                  getwd()
+                  cit <- vect("sampbias/cities_gaz.shp")
+                  cit <- crop(cit, ext(neo_sf))
+                  datum <- "+proj=longlat +datum=WGS84"
+                  cit <- project(cit, datum)
+                  plot(cit)
+
+                  roads <- vect('sampbias/roads_gaz.shp')
+                  roads
+                  roads <- crop(roads, ext(neo_sf))
+                  datum <- "+proj=longlat +datum=WGS84"
+                  roads <- project(roads, datum)
+                  plot(roads)
+
+                  rivers <- vect("sampbias/rivers_gaz.shp")
+                  rivers
+                  rivers <- crop(rivers, ext(neo_sf))
+                  datum <- "+proj=longlat +datum=WGS84"
+                  rivers <- project(rivers, datum)
+                  plot(rivers)
+
+                  # coordenadas modificadas:
+                  belo_sf_mod <- belo_sf[unlist(belo_sf_mod), ]
+
+                  gazetteers <- list(cities = cit, roads = roads,
+                                    pluviCV = CV_v_25, rivers = rivers,
+                                    pluviYear = pluviAnual_v_25, alt_10 = alt_v_10,
+                                    alt_25 = alt_v_25)
+                  gazetteers
+
+                  gazetteers_1 <- list(cities = cit, roads = roads,
+                                      rivers = rivers)
+                  gazetteers_1
+
+                  # prepare o dado
+                  doms <- as.data.frame(st_coordinates(belo_sf_mod))
+                  doms
+                  colnames(doms) <- c("decimalLongitude", "decimalLatitude")
+                  doms$species <- belo_sf_mod$species
+                  doms
+
+                  # faça o raster de resolução que você deseja como resultado final
+                  dmr <- crop(rast(resolution = 3), neo_sf)
+                  dmr
+                  
+                  ##############################################################################
+                  # Outras coisas podem ser baixadas com essas linhas de código
+                  # run the calculator, supplying our SpatVectors as a named list, and a buffer of
+                  # zero as we do not need to worry about the raster edges. This may take 10 minutes to run
+                  # options("download.file.method" = "libcurl")
+                  # spatially project the modeled effects of our sampling biases
+                  # devtools::install_github("ropensci/rnaturalearthhires")
+                  # devtools::install_github("ropensci/rnaturalearth")
+                  # devtools::install_github("ropensci/rnaturalearthdata")
+                  # rnaturalearth::ne_download(scale = "medium", type = "urban_areas", category = "cultural", returnclass = "sf")
+                  ###############################################################################
+
+                  testbias1 <- calculate_bias(doms, gaz = gazetteers,
+                                            inp_raster = dmr, buffer = 0)
+
+                  testbias2 <- calculate_bias(doms, gaz = gazetteers_1,
+                                            inp_raster = dmr, buffer = 0)
+
+                  project_bias(testbias1)
+                  map_bias(project_bias(testbias1), type = 'log_sampling_rate')
+                  summary(testbias2)
+                  
+                  proj1 <- project_bias(testbias1)
+                  plot(proj1)
+
+
+                  # calcula as forças relativas dos fatores usados entre 0,1 e 10 km de distância. O código está dentro do plot.sampbias()
+                  means <- colMeans(testbias$bias_estimate)
+                  means
+                  dists <- seq(0.1, 10, length.out = 1000)
+                  r_road  <- means["q"] * exp(-means["w_road"]  * dists)
+                  r_rivers <- means["q"] * exp(-means["w_rivers"] * dists)
+                  r_cities <- means["q"] * exp(-means["w_cities"] * dists)
+                  r_pluriAnual <- means["q"] * exp(-means["w_pluviYear"] * dists)
+                  r_alt_10 <- means["q"] * exp(-means["w_alt_10"] * dists)
+                  r_alt_25 <- means["q"] * exp(-means["w_alt_25"] * dists)
+                  r_pluviCV <- means['q'] * exp(-means['w_pluviCV'] * dists)
+
+                  # plot resumos
+                  cols <- c("#440154FF", "#FDE725FF", "red", 'green', 'grey', 'orange', 'pink')
+                  par(mfrow = c(2, 1))
+                  boxplot(testbias$bias_estimate[,c("w_cities", "w_roads", 
+                                                    "w_rivers", "w_pluviYear", "w_alt_10", "w_alt_25", "w_pluviCV")],
+                          ylab = "Posterior weight",
+                          col = cols, border = cols, names = c("Cities", "Roads", "Rivers", "PluviYear",
+                                                              "alt10", "alt25", "pluviCV"))
+
+                  plot(dists, r_cities, type = "l", lwd = 3, col = cols[1], xlab = "Distance (km)",
+                      ylab = "Sampling rate")
+                  lines(dists, r_road, lwd = 3, col = cols[2])
+                  lines(dists, r_rivers, lwd = 3, col = cols[3])
+                  lines(dists, r_pluriAnual, lwd = 3, col = cols[4])
+                  lines(dists, r_alt_10, lwd = 3, col = cols[5])
+                  lines(dists, r_alt_25, lwd = 3, col = cols[6])
+                  lines(dists, r_pluviCV, lwd = 3, col = cols[7])
+                  legend("topright", c("Cities", "Roads", "Rivers", "pluviA", "Alt10",
+                                      "Alt25", "pluviCV"), lty = 1,
+                        lwd = 3, bty = "n", col = cols)
+                  
+                  # Parece que as estradas influenciaram mais!
+  
+                  </pre>
+              </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
