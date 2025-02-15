@@ -1,2 +1,2 @@
 # biogeografiaCLASS
-Aulas da disciplina Métods em Biogeografia, ministrada como colaborador na UFRGS.
+Aulas da disciplina "Métodos em Biogeografia", ministrada como colaborador na UFRGS.
