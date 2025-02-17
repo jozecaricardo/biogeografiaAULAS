@@ -241,14 +241,15 @@
             <strong>Rotina para fazer o download de ocorrências de fósseis</strong>.
             <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
               <pre>
-              <class="fs-6 fw-normal"><code>library(paleobioDB); library(readr); library(dplyr)</code> # carregando pacotes 
-              <code class="fs-6 fw-normal"># Para pegar as ocorrências do Paleobiology DB, estreite sua busca como abaixo:
+              library(paleobioDB); library(readr); library(dplyr) # carregando pacotes 
+              
+              # Para pegar as ocorrências do Paleobiology DB, estreite sua busca como abaixo:
                 dat_tax <- paleobioDB::pbdb_occurrences(base_name = c("Belostomatidae"),
                           vocab = "pbdb", limit = 500, show = c("coords", "phylo", "attr", "loc",
                           "time", "rem", "ident"))
                 rownames(dat) <- NULL
-              </code>
-              <code class="fs-6 fw-normal">É possível também pegar registro de uma <a href="bombacoideae_genuslist.csv">lista de espécies ou gêneros</a>
+
+              # É possível também pegar registro de uma <a href="bombacoideae_genuslist.csv">lista de espécies ou gêneros</a>
                 gen_list <- read_csv("bombacoideae_genuslist.csv") # nome do arquivo .csv
                 dat_gen <- paleobioDB::pbdb_occurrences(base_name = gen_list$gen, vocab = "pbdb", limit = 500, show = c("coords", "phylo", "attr", "loc", "time", "rem", "ident"))
                 
@@ -265,7 +266,6 @@
 
                 # grave no arquivo:
                 write_csv(dat_tax, "BelosFossil_records.csv")
-              </code>
               </pre>
             </div> 
           </div>
