@@ -153,13 +153,13 @@ CalcRange_quadricula_MPC <- function(x, shape_file, resol) {
     ##### MPC #####
     hull <- convHull(resul1_shape)
     # write.shapefile(hull, paste0(c('out_MPC/MCP_', j), collapse = ''))
-    writeVector(hull, paste0(c('out_MPC/MPC_', j), collapse = ''), overwrite = T)
+    writeVector(hull, paste0(c('out_MPC/MPC_', j, '.shp'), collapse = ''), overwrite = T)
     
     print(paste0(c(conta + 2, ') calculating MPC... Done'), collapse = ''))
     
     # preparing shapes
     pasta <- paste0('MPC_', j)
-    pontos_linha <- shapefile(paste0(c('out_MPC/', pasta, '/MPC_', j, '.shp'), collapse = ''),
+    pontos_linha <- shapefile(paste0(c('out_MPC/MPC_', j, '.shp'), collapse = ''),
                               warnPRJ = FALSE)
     proj4string(pontos_linha) <- CRS("+proj=longlat +datum=WGS84") # wgs84 datum
     # plot(pontos_linha, col = cols1[j], lwd = 3, add = T)

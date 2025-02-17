@@ -140,13 +140,13 @@ CalcRangeBuffer_q <- function(x, buffer.width = NULL, shape_file, resol, mean_di
       obj_buff <- aggregate(buffer(resul1_shape, width = buffer.width))
     }
     # write.shapefile(hull, paste0(c('out_buffers/MCP_', j), collapse = ''))
-    writeVector(obj_buff, paste0(c('out_buffers/BUFF_', j), collapse = ''), overwrite = T)
+    writeVector(obj_buff, paste0(c('out_buffers/BUFF_', j, '.shp'), collapse = ''), overwrite = T)
     
     print(paste0(c(conta + 2, ') calculating buffer... Done'), collapse = ''))
     
     # preparing shapes
     pasta <- paste0('BUFF_', j)
-    pontos_linha <- shapefile(paste0(c('out_buffers/', pasta, '/BUFF_', j, '.shp'), collapse = ''),
+    pontos_linha <- shapefile(paste0(c('out_buffers/BUFF_', j, '.shp'), collapse = ''),
                               warnPRJ = FALSE)
     proj4string(pontos_linha) <- CRS("+proj=longlat +datum=WGS84") # wgs84 datum
     # plot(pontos_linha, col = cols1[j], lwd = 3, add = T)
