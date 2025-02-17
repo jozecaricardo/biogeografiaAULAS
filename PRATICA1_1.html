@@ -211,7 +211,7 @@
               </code>
               <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
                 <pre>
-                <class="fs-6 fw-normal"><code>library(sf); library(terra); library(tidyverse); library(taxsize); library(devtools)</code> # carregando os pacotes 
+                <class="fs-6 fw-normal"><code>library(sf); library(terra); library(tidyverse); library(taxize); library(devtools)</code> # carregando os pacotes 
                 <code class="fs-6 fw-normal">amz <- st_read("Amazonia.kml")</code> # puxando o arquivo para dentro do R
                 <code class="fs-6 fw-normal">plot(amz$geometry)</code> # para verificar se está tudo bem
                 <code class="fs-6 fw-normal">amz <- st_as_text(st_as_sfc(amz))</code> # para transformar num objeto WKT
