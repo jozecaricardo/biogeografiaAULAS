@@ -167,11 +167,10 @@
               </code>
               <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
                 <pre>
-                  <class="fs-6 fw-normal"><code>ID <- taxize::get_gbifid_("Lethocerus patruelis", method = "backbone")</code> ## get_gbifid_ retornará uma lista</p>
-                  <class="fs-6 fw-normal"><code>ID <- ID %>%
+                  ID <- taxize::get_gbifid_("Lethocerus patruelis", method = "backbone")</code> ## get_gbifid_ retornará uma lista
+                  ID <- ID %>%
                     bind_rows() %>% # convertida em data frame
                     filter(matchtype == "EXACT" & status == "ACCEPTED") # filtra os dados para os nomes aceitos
-                  </code>
                 </pre>
               </div>
               <p></p>
@@ -179,10 +178,9 @@
               </code>
               <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
                 <pre>
-                  <class="fs-6 fw-normal"><code>ID_Belos <- taxize::get_gbifid_("Belostomatidae", method="backbone") %>%
+                  ID_Belos <- taxize::get_gbifid_("Belostomatidae", method="backbone") %>%
                     bind_rows() %>%
                     filter(matchtype == "EXACT" & status == "ACCEPTED")
-                  </code>
                 </pre>
               </div>
               <p></p>
@@ -190,8 +188,8 @@
               </code>
               <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
                 <pre>
-                <class="fs-6 fw-normal"><code>splist <- read_csv("bombacoideae_specieslist.csv")</code> # espécies em .csv de Bombacoidea 
-                <code class="fs-6 fw-normal">gbif_taxon_keys <-
+                splist <- read_csv("bombacoideae_specieslist.csv") # espécies em .csv de Bombacoidea 
+                gbif_taxon_keys <-
                 splist %>%
                 pull("accepted_name") %>% # use poucos nomes se for um teste
                 taxize::get_gbifid_(method="backbone") %>%
@@ -199,8 +197,7 @@
                 bind_rows() %>% # combine todos os data frames em apenas um
                 filter(matchtype == "EXACT" & status == "ACCEPTED") %>%
                 filter(kingdom == "Plantae") # evite homonímias
-                </code>
-              </pre>
+                </pre>
               </div>
               <hr>
               <code class="fs-4 fw-normal">Frequentemente é desejável obter registros de uma área geográfica específica. Uma opção é fazer o
