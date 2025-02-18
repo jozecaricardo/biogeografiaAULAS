@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="br">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>pratica 4_2</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Métodos em Biogeografia Histórica</a>
+      <div class="btn-group">
+        <button type="button" class="btn btn-danger">Introdução</button>
+        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          <span class="visually-hidden">Toggle Dropdown</span>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="index.html">Início</a></li>
+          <li><a class="dropdown-item" href="int_objetivos.html">Objetivos</a></li>
+          <li><a class="dropdown-item" href="int_ementa.html">Ementa</a></li>
+          <li><a class="dropdown-item" href="int_programa.html">Programa</a></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li><a class="dropdown-item" href="int_referencias.html">Referências bibliográficas</a></li>
+        </ul>
+      </div>
+      <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-wrap" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Baixando e preparando os dados de ocorrência
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+                <li><a class="dropdown-item" href="pratica1_objetivos.html">Objetivos</a></li>
+                <!---<li><a class="dropdown-item" href="#">Morfologia: busca TRADICIONAL pelo TNT</a></li>
+                <li><a class="dropdown-item" href="#">Morfologia: Busca com o uso de "NEW TECHNOLOGY" pelo TNT</a></li>--->
+                <li><a class="dropdown-item" href="PRATICA1_1.html">Baixando registros do GBIF e PBDB</a></li>
+                <li><a class="dropdown-item" href="PRATICA1_2.html">Limpeza</a></li>
+                <!----<li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="PARC_referencias.html">Referências</a></li>--->
+            </ul>
+         </li>
+         <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-wrap" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Distribuição, riqueza e viés
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+                <li><a class="dropdown-item" href="pratica2_objetivos.html">Objetivos</a></li>
+                <li><a class="dropdown-item text-wrap" href="PRATICA2_1.html">Quadrículas, irregular bins e viés</a></li>
+            </ul>
+         </li>
+         <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-wrap" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Métodos de identificação, padrões distribucionais, áreas de endemismo e componentes bióticos e regionalização
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark">
+              <li><a class="dropdown-item" href="pratica3_objetivos.html">Objetivos</a></li>
+              <li><a class="dropdown-item text-wrap" href="aula_pae_pce.html">PAE-PCE</a></li>
+          </ul>
+       </li>
+       <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-wrap" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Métodos baseados em modelos
+        </a>
+        <ul class="dropdown-menu dropdown-menu-dark">
+            <li><a class="dropdown-item text-wrap" href="PRATICA4_objetivos.html">Objetivos</a></li>
+            <li><a class="dropdown-item text-wrap" href="DEC.html">Um exemplo com três táxons</a></li>
+            <li><a class="dropdown-item text-wrap" href="PRATICA4_1.html">DEC e DEC+j, DIVALIKE e DIVALIKE+j e BAYAREALIKE e BAYAREALIKE+j</a></li>
+            <li><a class="dropdown-item text-wrap" href="PRATICA4_2.html">Ajuste e escolha de modelos</a></li>
+        </ul>
+     </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!---- Exercícios -->
+  <div>
+    <!----- comparação de modelos ----->
+    <!--<p class="fs-2 text-success">First things first</p>
+    <img src="comparaModels.png" class="img-fluid" alt="comparação de modelos">
+    <figure class="figure">
+        <img src="comparaModels.png" class="figure-img img-fluid rounded" alt="compara modelos">
+        <figcaption class="figure-caption text-end">Indicação de como os modelos menos e mais complexos se comportam.</figcaption>
+      </figure>--->
+
+      <div class="text-center">
+        <img src="comparaModels.png" class="rounded" alt="...">
+        <figcaption class="figure-caption text-center"><strong>Indicação de como os modelos menos e mais complexos se comportam.</strong></figcaption>
+      </div>
+
+  </div>
+
+  <!--<p class="fw-semibold fs-6 lh-sm">Para usar o <a href="https://www.gbif.org/"><code>gbif</code></a>, você precisará ter uma conta de usuário GBIF. Isso normalmente não levará muito tempo para ser realizado, mas é importante fazer!
+    Vá para a aba de registro no canto superior direito da página inicial do GBIF e crie sua própria conta. <code>O GBIF só permite - até onde eu saiba -
+    três downloads por dia</code>, pois muito tráfego de download em uma única conta fará com que o servidor responda desfavoravelmente.</p>-->
+
+  <div class="accordion" id="accordionExample">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingOne">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+          aria-expanded="true" aria-controls="collapseOne">
+          log de verossimilhança e teste de razão de verossimilhança
+        </button>
+      </h2>
+      <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+        data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+            <strong>Rotina para estimar a verossimilhança do modelo.</strong>
+            <p></p>
+          <p class="fs-4 fw-normal">Algumas questões para seu projeto de pesquisa:</p>
+          <ol>
+            <li class="fs-5 fw-normal">Meus modelos são aninhados?</li>
+            <li class="fs-5 fw-normal">Que modelo é o menos pior?</li>
+            <p></p>
+          <!---<strong><a href='tutorial_quadrículas.R'>Rotina</a> para extrapolar áreas de distribuição baseadas em quadrículas</strong>
+          <p></p>
+          <p class="fs-5 fw-normal">1) Leitura dos dados a partir de um arquivo .txt ou .csv de um arquivo baixado de um
+            banco de dados ou ainda
+            não limpo. <strong>Uma filtragem preliminar, pegando apenas as coordenadas e as espécies, será
+              feita.</strong></p>-->
+          <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
+            <pre>
+                library(optimx)
+                library(FD)
+                library(snow)
+                library(parallel)
+                library(BioGeoBEARS)
+
+                # Podemos fazer um rápido ensaio...
+                #######################################################
+                # Statistics -- BAYAREALIKE vs. BAYAREALIKE+J
+                #######################################################
+                # We have to extract the log-likelihood differently, depending on the 
+                # version of optim/optimx
+                LnL_2 = get_LnL_from_BioGeoBEARS_results_object(resBAYAREALIKE)
+                LnL_1 = get_LnL_from_BioGeoBEARS_results_object(resBAYAREALIKEj)
+
+                numparams1 = 3
+                numparams2 = 2
+                stats = AICstats_2models(LnL_1, LnL_2, numparams1, numparams2)
+                stats
+
+                # BAYAREALIKE, null model for Likelihood Ratio Test (LRT)
+                res2 = extract_params_from_BioGeoBEARS_results_object(results_object=resBAYAREALIKE, returnwhat="table", addl_params=c("j"), paramsstr_digits=4)
+                # BAYAREALIKE+J, alternative model for Likelihood Ratio Test (LRT)
+                res1 = extract_params_from_BioGeoBEARS_results_object(results_object=resBAYAREALIKEj, returnwhat="table", addl_params=c("j"), paramsstr_digits=4)
+
+                rbind(res2, res1)
+                conditional_format_table(stats)
+
+                tmp_tests = conditional_format_table(stats)
+
+                restable = rbind(restable, res2, res1)
+                teststable = rbind(teststable, tmp_tests)
+                #####################################################################################
+                #####################################################################################
+
+
+                # carregando os dados:
+                res = "Psychotria_DIVALIKE_M0_unconstrained_v1.Rdata"
+                load(res)
+                res_onlyGeo_divaLike = res
+
+                res = "Psychotria_DIVALIKE+J_M0_unconstrained_v1.Rdata"
+                load(res)
+                res_onlyGeo_divaLikej = res
+
+                res = "Psychotria_BAYAREALIKE_M0_unconstrained_v1.Rdata"
+                load(res)
+                res_onlyGeo_bayareaLike = res
+
+                res = "Psychotria_BAYAREALIKE+J_M0_unconstrained_v1.Rdata"
+                load(res)
+                res_onlyGeo_bayareaLikej = res
+
+                res = "Psychotria_DEC_M0_unconstrained_v1.Rdata"
+                load(res)
+                res_onlyGeo_dec = res
+
+                res = "Psychotria_DEC+J_M0_unconstrained_v1.Rdata"
+                load(res)
+                res_onlyGeo_decj = res
+
+
+                #######################################
+                # para calcular o log da verossimilhança, é necessário o número de parâmetros de cada modelo:
+                numParam_Bay_M3 <- 2
+                numParam_Bayj_M3 <- 3
+                numParam_Diva_M3 <- 2
+                numParam_Divaj_M3 <- 3
+                numParam_DEC_M3 <- 2
+                numParam_DECj_M3 <- 3
+                #######################################
+
+                # lista de resultados:
+                results <- list()
+                results[[1]] <- res_onlyGeo_divaLike; results[[2]] <- res_onlyGeo_divaLikej
+                results[[3]] <- res_onlyGeo_bayareaLike; results[[4]] <- res_onlyGeo_bayareaLikej
+                results[[5]] <- res_onlyGeo_dec; results[[6]] <- res_onlyGeo_decj
+
+                # Set up empty tables to hold the statistical results
+                restable = NULL
+                teststable = NULL
+
+                resPrel <- list()
+                for(i in 1:length(results)){
+                resPrel[[i]] = extract_params_from_BioGeoBEARS_results_object(results_object = results[[i]],
+                                returnwhat = "table", addl_params = c("j"), paramsstr_digits = 4)
+                }
+                resPrel
+
+                # modelo 1 e modelo 2 são aninhados:
+                stats = AICstats_2models(resPrel[[2]]$LnL, resPrel[[1]]$LnL, 5, 4)
+                stats
+
+                tmp_tests = conditional_format_table(stats)
+                tmp_tests
+
+                restable = rbind(restable, resPrel[[2]]$LnL, resPrel[[1]]$LnL)
+                teststable = rbind(teststable, tmp_tests)
+                teststable
+
+                # modelo 3 e modelo 4:
+                stats = AICstats_2models(resPrel[[4]]$LnL, resPrel[[3]]$LnL, 5, 4)
+                stats
+
+                tmp_tests = conditional_format_table(stats)
+                tmp_tests
+
+                restable = rbind(restable, resPrel[[4]]$LnL, resPrel[[3]]$LnL)
+                teststable = rbind(teststable, tmp_tests)
+                teststable
+
+                # modelo 5 e modelo 6:
+                stats = AICstats_2models(resPrel[[6]]$LnL, resPrel[[5]]$LnL, 5, 4)
+                stats
+
+                tmp_tests = conditional_format_table(stats)
+                tmp_tests
+
+                restable = rbind(restable, resPrel[[6]]$LnL, resPrel[[5]]$LnL)
+                teststable = rbind(teststable, tmp_tests)
+                teststable
+                ######################################################################
+
+                #########################################################################
+                # ASSEMBLE RESULTS TABLES: DEC, DEC+J, DIVALIKE, DIVALIKE+J, BAYAREALIKE, BAYAREALIKE+J
+                #########################################################################
+                teststable$alt = c("DIVALIKE+J", "BAYAREALIKE+J", "DEC+J")
+                teststable
+                teststable$null = c("DIVALIKE", "BAYAREALIKE", "DEC")
+                teststable
+                dim(restable)
+
+                row.names(restable) = c("DIVALIKE+j", "DIVALIKE", "BAYAREALIKE+j", "BAYAREALIKE",
+                                            "DEC+j", "DEC")
+                restable = put_jcol_after_ecol(restable)
+                restable = round(restable, 2)
+                colnames(restable) <- 'lnL'
+
+                # Look at the results!!
+                restable
+                teststable
+                </pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingTwo">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+          aria-expanded="true" aria-controls="collapseTwo">
+          AIC e pesos de Akaike
+        </button>
+      </h2>
+      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="collapseTwo"
+        data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+            <strong>Rotina para estimar os valores de critério de Akaike (AIC) dos modelos.</strong>
+          <p></p>
+          <p class="fs-4 fw-normal">Algumas questões para seu projeto de pesquisa:</p>
+          <ol>
+            <li class="fs-5 fw-normal">Meus modelos são aninhados?</li>
+            <li class="fs-5 fw-normal">Que modelo é o menos pior? Qual é o grau de evidência dele, quando comparado aos demais?</li>
+            <p></p>
+            <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
+              <pre>
+                #######################################################
+                # Pesos dos modelos
+                #######################################################
+                restable
+                dim(restable)
+                # restable2 = as.matrix(restable[-c(1:12), ])
+                restable2 = as.matrix(restable)
+                restable2
+                dim(restable2)
+                teststable
+                # With AICs:
+                ?calc_AIC_column
+                modelos <- as.numeric(unlist(c(teststable$LnLalt[1:3], teststable$LnLnull[1:3])))
+                modelos
+
+                # ordem do restable2:
+                modelos2 <- as.numeric(unlist(c(teststable$LnLalt[1], teststable$LnLnull[1],
+                               teststable$LnLalt[2], teststable$LnLnull[2],
+                               teststable$LnLalt[3], teststable$LnLnull[3])))
+                modelos2
+
+                # mesma ordem do restable2
+                gl2 <- as.numeric(unlist(c(teststable$DFalt[1], teststable$DFnull[1],
+                          teststable$DFalt[2], teststable$DFnull[2],
+                          teststable$DFalt[3], teststable$DFnull[3])))
+                gl2 # na mesma ordem do restable2
+
+
+                AICtable2 = calc_AIC_column(LnL_vals = modelos2,
+                           nparam_vals = gl2)
+
+                restable_soma <- modelos2
+                restable_soma
+                
+                restable_soma = as.matrix(restable_soma)
+                colnames(restable_soma) <- 'lnL'
+                row.names(restable_soma) = c("DIVALIKE+j", "DIVALIKE", "BAYAREALIKE+j", "BAYAREALIKE",
+                                            "DEC+j", "DEC")
+                restable_soma
+                
+                restable_soma = cbind(restable_soma, AICtable2)
+                restable_soma
+                
+                restable_AIC_rellike = AkaikeWeights_on_summary_table(restable=restable_soma, colname_to_use="AIC")
+                restable_AIC_rellike = put_jcol_after_ecol(restable_AIC_rellike)
+                conditional_format_table(restable_AIC_rellike)
+                
+                # se eu quiser corrigir porque tenho poucas espécies:
+                # With AICcs -- factors in sample size
+                samplesize = 38
+                AICtable = round(calc_AICc_column(modelos2,
+                        nparam_vals = gl2, samplesize = samplesize), 4)
+                AICtable
+                restable2 = cbind(round(restable_soma, 2), AICtable)
+                restable2
+                restable_AICc_rellike = AkaikeWeights_on_summary_table(restable=restable2, colname_to_use="AICc")
+                restable_AICc_rellike = put_jcol_after_ecol(restable_AICc_rellike)
+                conditional_format_table(restable_AICc_rellike)
+                restable_AICc_rellike <- round(restable_AICc_rellike, 4)
+                restable_AICc_rellike
+                </pre>
+            </div>
+        </div>
+      </div>
+    </div>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
