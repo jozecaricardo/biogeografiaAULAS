@@ -135,7 +135,7 @@ for(k in 1:length(nomes)){
   if(resul[k] < 3){
     next
   }
-  MPC_shapes_n[[k]] <- vect(paste0('out_MPC/', pasta, names(resul)[k], '/MPC_', names(resul)[k], '.shp'))
+  MPC_shapes_n[[k]] <- vect(paste0('out_MPC/MPC_', names(resul)[k], '.shp'))
 }
 MPC_shapes_n <- MPC_shapes_n[-which(sapply(MPC_shapes_n, is.null))]
 MPC_shapes_n
@@ -157,7 +157,7 @@ for(k in 1:length(nomes)){
   if(resul[k] < 3){
     next
   }
-  BUFF_shapes_n[[k]] <- vect(paste0('out_buffers/', pasta, names(resul)[k], '/BUFF_', names(resul)[k], '.shp'))
+  BUFF_shapes_n[[k]] <- vect(paste0('out_buffers/BUFF_', names(resul)[k], '.shp'))
 }
 BUFF_shapes_n <- BUFF_shapes_n[-which(sapply(BUFF_shapes_n, is.null))]
 BUFF_shapes_n

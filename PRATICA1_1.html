@@ -91,7 +91,7 @@
       </h2>
       <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
         <div class="accordion-body">
-            <strong>Tutorial para baixar dados do GBIF e fazer uma limpeza básica nos registros obtidos</strong>
+            <strong><a href="pratica_dia1A.R">Tutorial 1A atualizado</a> e <a href="pratica_dia1B.R">tutorial 1B atualizado</a> para baixar dados do GBIF e fazer uma limpeza básica nos registros obtidos</strong>
             <div>
               <code>Antes de começar, vale à pena dar uma olhada no site do GBIF e usar seus recursos de pesquisa para explorar a disponibilidade
                 dos dados. Procure por algumas espécies ou grupos que considere interessantes e observe a distribuição delas no mapa integrado. Além disso,
@@ -167,7 +167,7 @@
               </code>
               <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
                 <pre>
-                  ID <- taxize::get_gbifid_("Lethocerus patruelis", method = "backbone")</code> ## get_gbifid_ retornará uma lista
+                  ID <- taxize::get_gbifid_("Lethocerus patruelis", method = "backbone") ## get_gbifid_ retornará uma lista
                   ID <- ID %>%
                     bind_rows() %>% # convertida em data frame
                     filter(matchtype == "EXACT" & status == "ACCEPTED") # filtra os dados para os nomes aceitos
@@ -208,18 +208,18 @@
               </code>
               <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
                 <pre>
-                <class="fs-6 fw-normal"><code>library(sf); library(terra); library(tidyverse); library(taxize); library(devtools)</code> # carregando os pacotes 
-                <code class="fs-6 fw-normal">amz <- st_read("Amazonia.kml")</code> # puxando o arquivo para dentro do R
-                <code class="fs-6 fw-normal">plot(amz$geometry)</code> # para verificar se está tudo bem
-                <code class="fs-6 fw-normal">amz <- st_as_text(st_as_sfc(amz))</code> # para transformar num objeto WKT
-                <pre>
-                  <code class="fs-6 fw-normal">ID_Belos <- taxize::get_gbifid_("Belostomatidae", method="backbone") %>% 
+                library(sf); library(terra); library(tidyverse); library(taxize); library(devtools) # carregando os pacotes 
+                amz <- st_read("Amazonia.kml") # puxando o arquivo para dentro do R
+                plot(amz$geometry) # para verificar se está tudo bem
+                amz <- st_as_text(st_as_sfc(amz)) # para transformar num objeto WKT
+                
+                # pegando a ID da família:
+                ID_Belos <- taxize::get_gbifid_("Belostomatidae", method="backbone") %>% 
                     bind_rows() %>%
-                    filter(matchtype == "EXACT" & status == "ACCEPTED") # para pegar o ID da família Belostomatidae</code>
+                    filter(matchtype == "EXACT" & status == "ACCEPTED") # para pegar o ID da família Belostomatidae
 
-                  <code class="fs-6 fw-normal">occ_download(pred_in("taxonKey", ID_Belos$usagekey), pred("hasCoordinate", TRUE), pred_within(amz), format = "SIMPLE_CSV",
-                    user = usr, pwd = pwd, email = eml) # o argumento pred_within fará o trabalho
-                  </code>                  
+                occ_download(pred_in("taxonKey", ID_Belos$usagekey), pred("hasCoordinate", TRUE), pred_within(amz), format = "SIMPLE_CSV",
+                    user = usr, pwd = pwd, email = eml) # o argumento pred_within fará o trabalho                  
                 </pre>
               </div>
               <hr>
@@ -235,7 +235,7 @@
         </h2>
         <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="collapseTwo" data-bs-parent="#accordionExample">
           <div class="accordion-body">
-            <strong>Rotina para fazer o download de ocorrências de fósseis</strong>.
+            <strong><a href="pratica_dia1C.R">Rotina</a> para fazer o download de ocorrências de fósseis</strong>.
             <div style="background-color:rgb(231, 231, 231);color:rgb(0, 0, 0);padding:20px;">
               <pre>
               library(paleobioDB); library(readr); library(dplyr) # carregando pacotes 
