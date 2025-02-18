@@ -108,7 +108,8 @@ plot(camadas_cut1[[1]])
 camadas_cut1 <- project(camadas_cut1, datum)
 # camadas_cut2 <- project(camadas_cut2, datum)
 
-camadas_cut1[[1]]@ptr$range_max # valor máximo
+camadas_cut1[[1]]@pntr$range_max # valor máximo
+camadas_cut1[[1]]@pntr
 
 # pontos:
 plot(neo_sf$geometry, border = 'tan')
@@ -123,8 +124,8 @@ plot(CVLayerPrec)
 # threshold our CV raster into bands, and specify a more convenient
 # 25%
 thresh_25 <- classify(CVLayerPrec,
-                      rcl = rbind(c(-Inf, camadas_cut1[[5]]@ptr$range_max*0.25, 1),
-                                  c(camadas_cut1[[5]]@ptr$range_max*0.25, Inf,  2)))
+                      rcl = rbind(c(-Inf, camadas_cut1[[5]]@pntr$range_max*0.25, 1),
+                                  c(camadas_cut1[[5]]@pntr$range_max*0.25, Inf,  2)))
 plot(thresh_25)
 
 # convert our thresholded raster to a set of sf polygons
@@ -145,8 +146,8 @@ CV_v_25
 # threshold our CV raster into bands, and specify a more convenient
 # 50%
 thresh_50 <- classify(CVLayerPrec,
-                      rcl = rbind(c(-Inf, camadas_cut1[[5]]@ptr$range_max*0.50, 1),
-                                  c(camadas_cut1[[5]]@ptr$range_max*0.50, Inf,  2)))
+                      rcl = rbind(c(-Inf, camadas_cut1[[5]]@pntr$range_max*0.50, 1),
+                                  c(camadas_cut1[[5]]@pntr$range_max*0.50, Inf,  2)))
 plot(thresh_50)
 
 # convert our thresholded raster to a set of sf polygons
@@ -167,8 +168,8 @@ CV_v_50
 # threshold our CV raster into bands, and specify a more convenient
 # 50%
 thresh_75 <- classify(CVLayerPrec,
-                      rcl = rbind(c(-Inf, camadas_cut1[[5]]@ptr$range_max*0.75, 1),
-                                  c(camadas_cut1[[5]]@ptr$range_max*0.75, Inf,  2)))
+                      rcl = rbind(c(-Inf, camadas_cut1[[5]]@pntr$range_max*0.75, 1),
+                                  c(camadas_cut1[[5]]@pntr$range_max*0.75, Inf,  2)))
 plot(thresh_75)
 
 # convert our thresholded raster to a set of sf polygons
@@ -194,8 +195,8 @@ pluviAnual <- aggregate(pluviAnual, fact = 5)
 # threshold our CV raster into bands, and specify a more convenient
 # 25%
 thresh_25 <- classify(pluviAnual,
-                      rcl = rbind(c(-Inf, camadas_cut1[[2]]@ptr$range_max*0.25, 1),
-                                  c(camadas_cut1[[2]]@ptr$range_max*0.25, Inf,  2)))
+                      rcl = rbind(c(-Inf, camadas_cut1[[2]]@pntr$range_max*0.25, 1),
+                                  c(camadas_cut1[[2]]@pntr$range_max*0.25, Inf,  2)))
 plot(thresh_25)
 
 # convert our thresholded raster to a set of sf polygons
@@ -220,8 +221,8 @@ altitude <- aggregate(altitude, fact = 5)
 # threshold our CV raster into bands, and specify a more convenient
 # 25%
 thresh_25 <- classify(altitude,
-                      rcl = rbind(c(-Inf, camadas_cut1[[1]]@ptr$range_max*0.25, 1),
-                                  c(camadas_cut1[[1]]@ptr$range_max*0.25, Inf,  2)))
+                      rcl = rbind(c(-Inf, camadas_cut1[[1]]@pntr$range_max*0.25, 1),
+                                  c(camadas_cut1[[1]]@pntr$range_max*0.25, Inf,  2)))
 plot(thresh_25)
 
 # convert our thresholded raster to a set of sf polygons
@@ -241,8 +242,8 @@ alt_v_25 <- vect(alt_25)
 # threshold our CV raster into bands, and specify a more convenient
 # 50%
 thresh_50 <- classify(altitude,
-                      rcl = rbind(c(-Inf, camadas_cut1[[1]]@ptr$range_max*0.50, 1),
-                                  c(camadas_cut1[[1]]@ptr$range_max*0.50, Inf,  2)))
+                      rcl = rbind(c(-Inf, camadas_cut1[[1]]@pntr$range_max*0.50, 1),
+                                  c(camadas_cut1[[1]]@pntr$range_max*0.50, Inf,  2)))
 plot(thresh_50)
 
 # convert our thresholded raster to a set of sf polygons
@@ -263,8 +264,8 @@ alt_v_50 <- vect(alt_50)
 # threshold our CV raster into bands, and specify a more convenient
 # 75%
 thresh_75 <- classify(altitude,
-                      rcl = rbind(c(-Inf, camadas_cut1[[1]]@ptr$range_max*0.75, 1),
-                                  c(camadas_cut1[[1]]@ptr$range_max*0.75, Inf,  2)))
+                      rcl = rbind(c(-Inf, camadas_cut1[[1]]@pntr$range_max*0.75, 1),
+                                  c(camadas_cut1[[1]]@pntr$range_max*0.75, Inf,  2)))
 plot(thresh_75)
 
 # convert our thresholded raster to a set of sf polygons
@@ -284,8 +285,8 @@ alt_v_75 <- vect(alt_75)
 # threshold our CV raster into bands, and specify a more convenient
 # 10%
 thresh_10 <- classify(altitude,
-                      rcl = rbind(c(-Inf, camadas_cut1[[1]]@ptr$range_max*0.10, 1),
-                                  c(camadas_cut1[[1]]@ptr$range_max*0.10, Inf,  2)))
+                      rcl = rbind(c(-Inf, camadas_cut1[[1]]@pntr$range_max*0.10, 1),
+                                  c(camadas_cut1[[1]]@pntr$range_max*0.10, Inf,  2)))
 plot(thresh_10)
 
 # convert our thresholded raster to a set of sf polygons
@@ -353,7 +354,7 @@ doms$species <- belo_sf_mod$species
 doms
 
 # make our raster
-dmr <- crop(rast(resolution = 3), neo_sf)
+dmr <- crop(rast(resolution = 0.5), neo_sf)
 dmr
 
 # run the calculator, supplying our SpatVectors as a named list, and a buffer of
@@ -375,7 +376,7 @@ testbias2 <- calculate_bias(doms, gaz = gazetteers_1,
 project_bias(testbias1)
 map_bias(project_bias(testbias1), type = 'log_sampling_rate')
 # map_bias(project_bias(testbias2))
-summary(testbias2)
+summary(testbias1)
 # plot(testbias2)
 
 proj1 <- project_bias(testbias1)
@@ -384,7 +385,7 @@ plot(proj1)
 
 # calculate the relative strengths of the factors at 0.1 to 10 km ranges. The
 # code is just the internals of plot.sampbias()
-means <- colMeans(testbias$bias_estimate)
+means <- colMeans(testbias1$bias_estimate)
 means
 dists <- seq(0.1, 10, length.out = 1000)
 r_road  <- means["q"] * exp(-means["w_road"]  * dists)
@@ -398,7 +399,7 @@ r_pluviCV <- means['q'] * exp(-means['w_pluviCV'] * dists)
 # plot summaries
 cols <- c("#440154FF", "#FDE725FF", "red", 'green', 'grey', 'orange', 'pink')
 par(mfrow = c(2, 1))
-boxplot(testbias$bias_estimate[,c("w_cities", "w_roads", 
+boxplot(testbias1$bias_estimate[,c("w_cities", "w_roads", 
                                   "w_rivers", "w_pluviYear", "w_alt_10", "w_alt_25", "w_pluviCV")],
         ylab = "Posterior weight",
         col = cols, border = cols, names = c("Cities", "Roads", "Rivers", "PluviYear",
