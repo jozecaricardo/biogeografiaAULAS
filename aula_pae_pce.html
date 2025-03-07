@@ -11,7 +11,6 @@
 
 <meta name="author" content="José Ricardo Inacio Ribeiro" />
 
-<meta name="date" content="2024-09-01" />
 
 <title>Traços generalizados com PAE-PCE</title>
 
@@ -352,7 +351,7 @@ display: none;
 
 <h1 class="title toc-ignore">Traços generalizados com PAE-PCE</h1>
 <h4 class="author">José Ricardo Inacio Ribeiro</h4>
-<h4 class="date">2024-09-01</h4>
+<h4 class="date">27-02-2025</h4>
 
 </div>
 
@@ -389,10 +388,12 @@ library(devtools)
 # install.packages(&#39;geiger&#39;)
 # install.packages(&#39;phytools&#39;) 
 # install.packages(&#39;viridis&#39;); install.packages(&#39;mapdata&#39;)
-# install.packages(&quot;letsR&quot;); install.packages(&#39;terra&#39;, repos=&#39;https://rspatial.r-universe.dev&#39;)
-# install.packages(&quot;Rcpp&quot;)
-# install.packages(&#39;fossil&#39;); install.packages(&#39;vegan&#39;)
-# install.packages(&quot;spdep&quot;); install.packages(&#39;dismo&#39;); install.packages(&quot;TreeSearch&quot;); install.packages(&#39;spatstat&#39;); install.packages(&#39;ctv&#39;); install.packages(&#39;Xming&#39;)
+install.packages(&quot;letsR&quot;); install.packages(&#39;terra&#39;, repos=&#39;https://rspatial.r-universe.dev&#39;)
+install.packages(&#39;fossil&#39;)
+install.packages(&#39;vegan&#39;)
+install.packages(&quot;spdep&quot;); install.packages(&#39;dismo&#39;)
+install.packages(&quot;TreeSearch&quot;); install.packages(&#39;spatstat&#39;)
+install.packages(&#39;ctv&#39;); install.packages(&#39;Xming&#39;)
 
 library(phytools)
 library(terra)
@@ -401,7 +402,7 @@ library(geiger)
 # Indicando o local onde se localiza as coordenadas, a árvore e o shapefile de interesse...
 diret1 &lt;- &#39;~/Dropbox/papers_books/panbiogeography/&#39; # formato MAC
 diret1 &lt;- &#39;D:/Dropbox/papers_books/panbiogeography/&#39; # formato Windows
-diret1 &lt;- &#39;local de sua escolha&#39;</code></pre>
+diret1 &lt;- &#39;local de sua escolha/etc/&#39;</code></pre>
 </div>
 <div id="bloco-1" class="section level1">
 <h1><strong>BLOCO 1</strong></h1>
@@ -411,7 +412,7 @@ ESPÉCIES</h3>
 <pre class="r"><code>lycipta.coords &lt;- read.table(file = paste0(diret1, &#39;Lycipta.csv&#39;, collapse = NULL), sep = &#39;,&#39;, dec = &#39;.&#39;, h = T)
 
 # Visualização da estrutura dos dados:
-# obs: Para utilização de banco de dados próprio, recomendamos organizar o arquivo com o seguinte cabeçaalho e coordenadas em decimais: spp, long, lat (tudo minúsculo)!
+# obs: Para utilização de banco de dados próprio, recomendamos organizar o arquivo com o seguinte cabeçalho e coordenadas em decimais: spp, lat, long (tudo minúsculo)! É muito importante deixar nessa ordem!
 
 head(lycipta.coords, 10)</code></pre>
 </div>
@@ -420,25 +421,31 @@ head(lycipta.coords, 10)</code></pre>
 BIOGEOGRÁFICA</h3>
 <pre class="r"><code># shapefile de trabalho:
 diret2 = &#39;D:/Dropbox/papers_books/panbiogeography/shapes_pan/Lowenberg_Neto_2014_shapefile/&#39;
+# ou um endereço de sua escolha:
+diret2 &lt;- &#39;local de sua escolha/etc/&#39; # importante terminar com a barra
 
 morrone &lt;- vect(paste0(diret2, &#39;NeotropicMap_Geo.shp&#39;), crs = &quot;+proj=longlat +datum=WGS84&quot;)
 
 ## PLOTANDO OS PONTOS
 plot(morrone, axes = T, col = &quot;gray&quot;)
 
-points(lycipta.coords[,2:3], pch = 16, col = &quot;red&quot;, cex = 1)</code></pre>
+points(lycipta.coords[,3:2], pch = 16, col = &quot;red&quot;, cex = 1)</code></pre>
 </div>
-<div id="carregando-a-árvore-filogenética" class="section level3">
-<h3>CARREGANDO A ÁRVORE FILOGENÉTICA</h3>
+<div id="carregando-a-árvore-filogenética-ela-não-é-necessária-se-você-só-quer-produzir-os-traços-individuais-e-os-traços-generalizados-de-todas-as-espécies" class="section level3">
+<h3>CARREGANDO A ÁRVORE FILOGENÉTICA (<strong>ELA NÃO É NECESSÁRIA SE
+VOCÊ SÓ QUER PRODUZIR OS TRAÇOS INDIVIDUAIS E OS TRAÇOS GENERALIZADOS DE
+TODAS AS ESPÉCIES!</strong>)</h3>
 <pre class="r"><code>lycipta.tree &lt;- read.tree(file = paste0(diret1, &#39;Lycipta.tre&#39;, collapse = NULL))
 # X11(type = &#39;cairo&#39;) # ou windows() para Windows
 
 #plot da árvore:
 plotTree(lycipta.tree)</code></pre>
 </div>
-<div id="etapa-importante-retirada-dos-singletons" class="section level3">
-<h3><strong>ETAPA IMPORTANTE</strong>: retirada dos
-<em>singletons</em></h3>
+<div id="etapa-importante-retirada-dos-singletons-se-você-não-possuir-árvore-filogenética-melhor-não-usar-essa-função-ela-por-enquanto-só-roda-com-a-árvore-junta.-veja-nota-abaixo-para-solucionar-o-problema" class="section level3">
+<h3><strong>ETAPA IMPORTANTE</strong>: retirada dos <em>singletons</em>
+(Se você não possuir árvore filogenética, melhor não usar essa função:
+ela, por enquanto, só roda com a árvore junta. Veja nota abaixo para
+solucionar o problema…)</h3>
 <p>
 <span class="math inline">\(\color{red}{\text{Só é necessário fazer isso
 se você tiver espécies com apenas um registro, bem como táxons que
@@ -453,7 +460,49 @@ source(paste0(diret1, &#39;sing_data_frame.R&#39;))
 
 resul &lt;- singleton.to.data.frame(data = lycipta.coords, phylogeny = lycipta.tree)
 
-resul # apresenta duas coisas</code></pre>
+resul # apresenta duas coisas e, agora, as colunas lat e long mudaram de ordem. Isso deve acontecer!
+
+#########################################################################
+#########################################################################
+# Para aqueles que não possuem árvore filogenética:
+lat &lt;- lycipta.coords[,2]
+long &lt;- lycipta.coords[,3]
+names(lat) &lt;- lycipta.coords[, 1]
+names(long) &lt;- lycipta.coords[, 1]
+locais &lt;- cbind(lat, long)
+
+singletons &lt;- NULL # apenas uma ocorrência
+sppsORD &lt;- sort(rownames(locais), decreasing = F)
+for(i in 1:length(unique(rownames(locais)))){
+  singletons[i] &lt;- length(grep(pattern = unique(sppsORD)[i], x = sppsORD))
+}
+
+# Atenção: se todos os valores do objeto singletons foram maiores que 1, significa que não existem espécies
+# com apenas um ponto de ocorrência. Assim, execute o código 1A abaixo.
+# código 1A:
+if(all(singletons &gt; 1) == TRUE){
+  spp &lt;- data[, 1]
+  data_df &lt;- data.frame(spp = spp, long = long, lat = lat)
+}
+
+# Entretanto, se tiver algum valor igual a um, execute o código 1B abaixo ao invés do 1A:
+# código 1B:
+singletons &lt;- which(singletons == 1)
+um_ponto &lt;- unique(sppsORD)[singletons]
+
+# now without singletons:
+locaisNew &lt;- locais
+for(i in 1:length(um_ponto)){
+  linha &lt;- which(rownames(locaisNew) == um_ponto[i])
+  locaisNew &lt;- locaisNew[-linha,]
+}
+
+# data frame
+lat &lt;- locaisNew[, 1]
+long &lt;- locaisNew[, 2]
+spp &lt;- rownames(locaisNew)
+
+data_df &lt;- data.frame(spp = spp, long = long, lat = lat)</code></pre>
 <hr />
 </div>
 </div>
@@ -467,8 +516,11 @@ source(paste0(diret1, &#39;node_terminal.R&#39;))
 # ATENÇÃO ## a função abaixo irá gerar os MST&#39;s para todas as espécies presentes no arquivo inicial.
 # Neste ponto, definimos a resolução espacial (com o argumento &#39;resol&#39;) que será mantida nas análises subsequentes (PAE_PCE)
 
-# todos os táxons
+# todos os táxons (com árvore)
 mst_all_taxa &lt;- terminal_node(coordin = resul$data_df, shape_file = morrone, sobrepo = F, caption = T, resol = c(10, 10), tree = resul$treeMod, seephylog = FALSE)
+
+# todos os táxons (sem árvore)
+mst_all_taxa &lt;- terminal_node(coordin = data_df, shape_file = morrone, sobrepo = F, caption = T, resol = c(10, 10), seephylog = FALSE)
 
 # a função gerará uma matriz de presenças e ausências
 mst_all_taxa</code></pre>
@@ -597,8 +649,9 @@ resul2A &lt;- terminal_node(taxon = &#39;E_L_triangulator&#39;, coordin = resul$
 </div>
 <div id="bloco-4" class="section level1">
 <h1><strong>BLOCO 4</strong></h1>
-<div id="detecção-de-eventos-vicariantes" class="section level2">
-<h2>DETECÇÃO DE EVENTOS VICARIANTES</h2>
+<div id="detecção-de-eventos-vicariantes-só-funciona-com-árvore-filogenética-incluída" class="section level2">
+<h2>DETECÇÃO DE EVENTOS VICARIANTES: <strong>só funciona com árvore
+filogenética incluída!</strong></h2>
 <pre class="r"><code># chame a função is.allopatry...
 source(paste0(diret1, &#39;is_allopatry.R&#39;))
 
