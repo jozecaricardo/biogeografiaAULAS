@@ -429,7 +429,11 @@ morrone &lt;- vect(paste0(diret2, &#39;NeotropicMap_Geo.shp&#39;), crs = &quot;+
 ## PLOTANDO OS PONTOS
 plot(morrone, axes = T, col = &quot;gray&quot;)
 
-points(lycipta.coords[,3:2], pch = 16, col = &quot;red&quot;, cex = 1)</code></pre>
+# Os dados de Lycipta não estão na ordem que sugerimos. Logo, tivemos que inverter Long e Lat. Se os seus dados estiverem corretos, NÃO execute a linha de código seguinte.
+points(lycipta.coords[,3:2], pch = 16, col = &quot;red&quot;, cex = 1)
+
+# Se seus dados estiverem corretos, execute a linha de código abaixo:
+points(lycipta.coords[,2:3], pch = 16, col = &quot;red&quot;, cex = 1)</code></pre>
 </div>
 <div id="carregando-a-árvore-filogenética-ela-não-é-necessária-se-você-só-quer-produzir-os-traços-individuais-e-os-traços-generalizados-de-todas-as-espécies" class="section level3">
 <h3>CARREGANDO A ÁRVORE FILOGENÉTICA (<strong>ELA NÃO É NECESSÁRIA SE
